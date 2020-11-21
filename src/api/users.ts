@@ -3,66 +3,40 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { NextFunction, Request, Response, Router } from "express";
 import { AuthRequest } from "../types/Request";
-import {hasUniqueEmail} from "../middleware"
-import {saltRounds} from "../utils/constants"
+import { hasUniqueEmail } from "../middleware";
+import { saltRounds } from "../utils/constants";
+import checkAuth from "../middleware/check-auth";
+import { updateUser } from "../utils/functions";
 const router = Router();
-
-router.delete("/delete/:id", async (req, res, next) => {
-	try {
-		await User.findOneAndDelete({ uuid: req.params.id });
-		res.json("User Deleted");
-	} catch (err) {
-		res.status(400).json("Error: " + err.message);
-	}
-});
 
 router.get("/get/:id", async (req, res, next) => {
 	try {
 		const userId = req.params.id;
-		const user = await User.findOne({ _id: userId });
+		const user = await User.findById(userId);
 		res.json(user);
 	} catch (err) {
 		next(err);
 	}
 });
 
-router.patch(
-	"/update",
-	hasUniqueEmail,
-	async (req: AuthRequest, res: Response, next: NextFunction) => {
-		const user = await User.findOne({ uuid: req.userData?.userId });
-		if (!user) {
-			throw new Error("Invalid User Id");
-		}
-		const { username, email, password, photo, bio, phone } = req.body;
-		try {
-			if (username) {
-				user.username = username;
-			}
-			if (email) {
-				user.email = email;
-			}
-			if (phone) {
-				user.phone = phone;
-			}
-			if (photo) {
-				user.photo = photo;
-			}
-			if (bio) {
-				user.bio = bio;
-			}
-			if (password) {
-				const samePassword = await bcrypt.compare(password, user.password);
-				if (!samePassword) {
-					user.password = await bcrypt.hash(password, saltRounds);
-				}
-			}
-			await user.save();
-			res.json({ code: 200, message: "User Updated" });
-		} catch (err) {
-			res.status(400).json("Error: " + err.message);
-		}
-	}
-);
+router.use(checkAuth);
 
-export = router
+router.delete("/delete/:id", async (req, res) => {
+	try {
+		await User.findOneAndDelete({ uuid: req.params.id });
+		res.json("User Deleted");
+	} catch (err) {
+		res.status(500).json({ code: 500, message: "Error: " + err.message });
+	}
+});
+
+router.patch("/update/:id", hasUniqueEmail, async (req: AuthRequest, res: Response) => {
+	try {
+		const result = await updateUser(req.params.id, req.body);
+		res.status(result.code).json(result);
+	} catch (err) {
+		res.status(500).json({ code: 500, message: "Error: " + err.message });
+	}
+});
+
+export = router;

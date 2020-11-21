@@ -3,7 +3,7 @@ import { checkAuth } from "../utils/functions";
 
 import { AuthRequest } from "../types/Request";
 
-module.exports = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export = async (req: AuthRequest, res: Response, next: NextFunction) : Promise<void> => {
 	try {
 		const token = req.get("Authorization");
 		const payload = await checkAuth(token);
@@ -11,6 +11,6 @@ module.exports = async (req: AuthRequest, res: Response, next: NextFunction) => 
 		req.userData = payload;
 		next();
 	} catch (err) {
-		return res.json({ success: false, code: 401, message: "Authorization failed" });
+		res.status(401).json({ success: false, code: 401, message: "Authorization failed" });
 	}
 };
