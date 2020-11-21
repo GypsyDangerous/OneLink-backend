@@ -10,13 +10,15 @@ dotenv.config();
 
 // const middlewares = require("./middlewares");
 import { notFound, errorHandler } from "./middleware";
-import {upload_path} from "./utils/constants"
+import { upload_path } from "./utils/constants";
 import api from "./api";
 // const api = require("./api");
 
 const app = express();
 
-app.use(morgan("dev"));
+if (process.env.DEBUG_MODE === "true") {
+	app.use(morgan(process.env.LOGGING_TYPE || "dev"));
+}
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
@@ -35,7 +37,7 @@ app.use(
 	})
 );
 
-app.use(upload_path.substr(1), express.static(upload_path.substr(2)))
+app.use(upload_path.substr(1), express.static(upload_path.substr(2)));
 
 app.get("/", (req, res) => {
 	res.json({
