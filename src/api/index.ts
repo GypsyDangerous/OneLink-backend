@@ -1,7 +1,6 @@
 import { Router } from "express";
 import fileUpload from "../middleware/file-upload";
 import { fileDownload } from "../middleware/download_file";
-import LinkSet from "../models/LinkSet.model";
 import auth from "./auth";
 import users from "./users";
 import pages from "./Linkset";
