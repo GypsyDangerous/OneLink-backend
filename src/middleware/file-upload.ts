@@ -12,14 +12,15 @@ const MimeTypeMap: any = {
 };
 
 const fileUpload = multer({
-	// limits: 500000,
+	limits:{
+        fileSize: 1024 * 1024
+    },
 	storage: multer.diskStorage({
 		destination: (req, file, callback) => {
-			const dir = upload_path;
-			if (!fs.existsSync(dir)) {
-				fs.mkdirSync(dir, { recursive: true });
+			if (!fs.existsSync(upload_path)) {
+				fs.mkdirSync(upload_path, { recursive: true });
 			}
-			callback(null, dir);
+			callback(null, upload_path);
 		},
 		filename: (req, file, callback) => {
 			const ext = MimeTypeMap[file.mimetype];

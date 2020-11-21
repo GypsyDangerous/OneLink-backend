@@ -1,4 +1,4 @@
-import { NextFunction, Response, Request } from "express";
+import {  Response, Request } from "express";
 import { get_image_filename, downloadFile as download } from "../utils/functions";
 import {UrlBody} from "../types/Request"
 
