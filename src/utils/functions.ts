@@ -15,6 +15,8 @@ import {
 } from "./constants";
 import { UserModification } from "../types/User";
 import bcrypt from "bcrypt";
+import LinkSet from "../models/LinkSet.model";
+import { LinkSet as Page } from "../types/LinkSet";
 
 
 
@@ -190,4 +192,17 @@ export const updateUser = async (
 	}
 	await user.save();
 	return { code: 200, message: "User update successfully" };
+};
+
+export const getPage = (owner: string): Promise<Page> => {
+	return new Promise((res, rej) =>
+		LinkSet.findOne({ owner }, (err, doc) => {
+			if (err) {
+				return rej(err);
+			}
+			if (doc) {
+				res(doc);
+			}
+		})
+	);
 };
