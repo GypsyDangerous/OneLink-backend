@@ -26,7 +26,11 @@ export const checkAuth = async (token?: string): Promise<payload | null> => {
 	if (!token) {
 		return null;
 	}
-	const secret = process.env.PRIVATE_KEY || "";
+	const secret = process.env.PRIVATE_KEY
+	if(!secret) {
+		console.log("JWT Private key is not set. please set one immediately")
+		process.exit(1)
+	}
 	const payload: payload | string = jwt.verify(token, secret);
 	if (typeof payload === "string") {
 		return null;
