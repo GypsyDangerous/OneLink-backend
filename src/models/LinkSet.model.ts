@@ -37,6 +37,6 @@ const LinkSetSchema = new Schema(
 	}
 );
 
-const User = mongoose.model<LinkSet>("linkset", LinkSetSchema);
+const LinkSet = mongoose.model<LinkSet>("linkset", LinkSetSchema);
 
-export = User;
+export = LinkSet 

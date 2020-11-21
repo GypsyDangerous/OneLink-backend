@@ -1,4 +1,5 @@
 import User from "../models/User.model";
+import LinkSet from "../models/LinkSet.model"
 import { DocumentQuery } from "mongoose";
 import { checkUniqueEmail, login, register, checkAuth, updateUser } from "../utils/functions";
 import { UserModification } from "../types/User";
@@ -11,6 +12,10 @@ export const resolvers = {
 		user: (parent: any, { id }: { id: string }): DocumentQuery<User | null, User, unknown> => {
 			return User.findById(id);
 		},
+		page: (parent: any, { name }: { name: string }): DocumentQuery<LinkSet | null, LinkSet, unknown> => {
+			return LinkSet.findOne({owner: name});
+		},
+
 	},
 	Mutation: {
 		login: async (

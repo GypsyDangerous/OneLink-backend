@@ -11,18 +11,18 @@ export const typeDefs = gql`
 	}
 	type Link{
 		path: String!,
-		embed?: Boolean,
-		image?: String,
+		embed: Boolean,
+		image: String,
 		name: String!,
-		order: Number!,
-		color?: String!,
+		order: Int!,
+		color: String!,
 		active: Boolean!
 	}
 	type Page{
 		owner: String!,
 		links: [Link]!,
 		theme: String!,
-		linkCount: Number!
+		linkCount: Int!
 	}
 	type AuthResult {
 		user: User,
@@ -30,7 +30,8 @@ export const typeDefs = gql`
 	}
 	type Query {
 		users: [User]
-		user(id: ID!): User
+		user(id: ID!): User,
+		page(name: String!): Page
 	}
 	type Mutation {
 		login (email: String!, password: String!): AuthResult

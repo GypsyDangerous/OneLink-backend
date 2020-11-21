@@ -13,4 +13,13 @@ router.get("/:username", (req, res, next) => {
 	}
 });
 
+router.post("/:username/create", (req, res, next) => {
+	const body = req.body;
+	const linkset = {
+		owner: req.params.username,
+		links: [],
+
+	}
+});
+
 export = router;

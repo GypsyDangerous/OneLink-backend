@@ -4,6 +4,8 @@ import helmet from "helmet";
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import { ApolloServer } from "apollo-server-express";
+import { typeDefs, resolvers, context } from "./graphql";
 dotenv.config();
 
 // const middlewares = require("./middlewares");
@@ -27,6 +29,10 @@ const connection = mongoose.connection;
 connection.once("open", () => {
 	console.log("MongoDB database connection successful");
 });
+
+const server = new ApolloServer({ typeDefs, resolvers, context });
+
+server.applyMiddleware({ app });
 
 
 app.use(upload_path.substr(1), express.static(upload_path.substr(2)));
