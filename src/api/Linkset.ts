@@ -13,13 +13,14 @@ router.get("/:username", (req, res, next) => {
 	}
 });
 
-router.post("/:username/create", (req, res, next) => {
-	const body = req.body;
+router.post("/:username/create", async (req, res, next) => {
 	const linkset = {
 		owner: req.params.username,
-		links: [],
-
-	}
+		
+	};
+	const newLinkSet = new LinkSet(linkset);
+	await newLinkSet.save()
+	res.json({ code: 200, data: newLinkSet });
 });
 
 export = router;
