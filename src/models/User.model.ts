@@ -1,27 +1,59 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
-import {saltRounds} from "../utils/constants"
+import { saltRounds } from "../utils/constants";
+
+interface OtherSocial {
+	name: string;
+	link: string;
+}
+
+interface Socials {
+	instagram?: string;
+	facebook?: string;
+	tiktok?: string;
+	medium?: string;
+	snapchat?: string;
+	email?: boolean;
+	phone?: boolean;
+	twitter?: string;
+	others?: OtherSocial[];
+}
+
 interface User extends mongoose.Document {
 	bio: string;
 	phone: string;
 	username: string;
+	name: string;
 	email: string;
 	password: string;
 	isDeleted?: boolean;
 	photo: string;
+	social: Socials;
 	generateHash: (password: string) => string;
-	validPassword: (password: string) => boolean
+	validPassword: (password: string) => boolean;
 }
 
 const UserSchema = new Schema(
 	{
+		socials: {
+			type: Object,
+			required: true,
+			default: {},
+		},
 		bio: { type: String, required: false, default: "" },
 		phone: { type: String, required: false, default: "" },
+		name: {
+			type: String,
+			required: true,
+			trim: true,
+			minlength: 3,
+		},
 		username: {
 			type: String,
 			required: true,
 			trim: true,
 			minlength: 3,
+			unique: true,
 		},
 		email: {
 			type: String,
@@ -43,7 +75,7 @@ const UserSchema = new Schema(
 		photo: {
 			type: String,
 			required: false,
-			default: "/avatar.png"
+			default: "/avatar.png",
 		},
 	},
 	{
