@@ -1,4 +1,4 @@
-export const upload_path = "/public/images";
+export const upload_path = "./public/images";
 
 export const saltRounds = 13;
 

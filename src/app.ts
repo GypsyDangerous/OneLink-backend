@@ -35,7 +35,7 @@ app.use(
 	})
 );
 
-app.use(upload_path, express.static(upload_path.substr(1)))
+app.use(upload_path.substr(1), express.static(upload_path.substr(2)))
 
 app.get("/", (req, res) => {
 	res.json({
