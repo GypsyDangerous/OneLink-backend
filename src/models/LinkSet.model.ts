@@ -20,7 +20,7 @@ interface LinkSet extends mongoose.Document {
 const LinkSetSchema = new Schema(
 	{
 		owner: { type: String, required: true },
-		phone: { type: Array, required: true, default: [] },
+		links: { type: Array, required: true, default: [] },
 		theme: {
 			type: String,
 			required: false,
