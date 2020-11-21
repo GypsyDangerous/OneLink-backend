@@ -1,21 +1,6 @@
 import mongoose, { Schema } from "mongoose";
+import {LinkSet} from "../types/LinkSet"
 
-interface Link {
-	path: string;
-	embed?: boolean;
-	image?: string;
-	name: string;
-	order: number;
-	color?: string;
-	active: boolean;
-}
-
-interface LinkSet extends mongoose.Document {
-	owner: string;
-	links: Link[];
-	theme: string;
-	linkCount: number;
-}
 
 const LinkSetSchema = new Schema(
 	{
