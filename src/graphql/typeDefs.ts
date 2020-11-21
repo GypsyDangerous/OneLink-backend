@@ -9,6 +9,21 @@ export const typeDefs = gql`
 		photo: String,
 		id: ID!	
 	}
+	type Link{
+		path: String!,
+		embed?: Boolean,
+		image?: String,
+		name: String!,
+		order: Number!,
+		color?: String!,
+		active: Boolean!
+	}
+	type Page{
+		owner: String!,
+		links: [Link]!,
+		theme: String!,
+		linkCount: Number!
+	}
 	type AuthResult {
 		user: User,
 		token: String!
