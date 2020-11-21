@@ -30,12 +30,6 @@ connection.once("open", () => {
 	console.log("MongoDB database connection successful");
 });
 
-app.use(
-	rateLimit({
-		windowMs: 15 * 60 * 1000, // 15 minutes
-		max: 15,
-	})
-);
 
 app.use(upload_path.substr(1), express.static(upload_path.substr(2)));
 
