@@ -3,9 +3,7 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
 import dotenv from "dotenv";
-import path from "path";
 import mongoose from "mongoose";
-import rateLimit from "express-rate-limit";
 dotenv.config();
 
 // const middlewares = require("./middlewares");
