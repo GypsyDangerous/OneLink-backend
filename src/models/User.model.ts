@@ -44,9 +44,10 @@ const UserSchema = new Schema(
 		phone: { type: String, required: false, default: "" },
 		name: {
 			type: String,
-			required: true,
+			required: false,
 			trim: true,
-			minlength: 3,
+			default: "",
+			// minlength: 3,
 		},
 		username: {
 			type: String,
