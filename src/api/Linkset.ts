@@ -3,6 +3,7 @@ import uid from "uid";
 import LinkSet from "../models/LinkSet.model";
 import { Link } from "../types/LinkSet";
 import { getPage } from "../utils/functions";
+import checkAuth from "../middleware/check-auth";
 const router = Router();
 
 router.get("/:username", (req, res, next) => {
@@ -14,6 +15,8 @@ router.get("/:username", (req, res, next) => {
 		next();
 	}
 });
+
+router.use(checkAuth);
 
 router.post("/:username/create", async (req, res, next) => {
 	const linkset = {
@@ -32,6 +35,7 @@ router.patch(
 		const link = req.body;
 		link.id = uid();
 		linkSet.links.push(link);
+		linkSet.save()
 	}
 );
 
