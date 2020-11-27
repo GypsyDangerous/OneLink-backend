@@ -219,3 +219,11 @@ export const updateLink = async (owner: string, link: Link): Promise<Page> => {
 	linkSet.links[linkIndex] = link 
 	return linkSet;
 };
+
+
+export const updatePage = async (owner: string, theme?: string, linkCount?: number): Promise<Page> => {
+	const linkSet = await getPage(owner);
+	if(theme) linkSet.theme = theme
+	if(linkCount) linkSet.linkCount = linkCount
+	return linkSet;
+};

@@ -1,5 +1,5 @@
 import User from "../models/User.model";
-import LinkSet from "../models/LinkSet.model";
+import LinkSet, { update } from "../models/LinkSet.model";
 import { DocumentQuery } from "mongoose";
 import {
 	checkUniqueEmail,
@@ -7,6 +7,7 @@ import {
 	register,
 	updateUser,
 	addLink,
+	updatePage,
 	updateLink,
 } from "../utils/functions";
 import { UserModification } from "../types/User";
@@ -24,7 +25,7 @@ export const resolvers = {
 			if (id) {
 				return User.findById(id);
 			} else {
-				return User.findOne({username})
+				return User.findOne({ username });
 			}
 		},
 		page: (
@@ -103,6 +104,15 @@ export const resolvers = {
 			const { id } = context;
 			if (!id) throw new Error("Unauthorized");
 			return updateLink(id, link);
+		},
+		updatePage: async (
+			parent: unknown,
+			{ theme, linkCount }: { theme?: string; linkCount?: number },
+			context: { id?: string }
+			): Promise<Page> => {
+				const { id } = context;
+				if (!id) throw new Error("Unauthorized");
+				return updatePage(id, theme, linkCount)
 		},
 	},
 };

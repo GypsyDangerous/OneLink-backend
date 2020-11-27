@@ -51,5 +51,6 @@ export const typeDefs = gql`
 		addLink(link: LinkBody): Page,
 		addLinks(links: [LinkBody]): Page,
 		updateLink(link: LinkBody): Page
+		updatePage(theme: String, linkCount: Int): Page
 	}
 `;
