@@ -11,14 +11,12 @@ import {
 	usernameMax,
 	emailMin,
 	saltRounds,
-	upload_path
+	upload_path,
 } from "./constants";
 import { UserModification } from "../types/User";
 import bcrypt from "bcrypt";
 import LinkSet from "../models/LinkSet.model";
-import { LinkSet as Page } from "../types/LinkSet";
-
-
+import { LinkSet as Page, Link } from "../types/LinkSet";
 
 export const get_image_filename = (ext: string): string => `photo-${uid(12)}-${uid(12)}.${ext}`;
 
@@ -33,17 +31,17 @@ export const checkUniqueEmail = async (email: string): Promise<boolean> => {
 		return true;
 	}
 	email = email.toLowerCase();
-	return !!(await User.findOne({ email }));
+	return !!(await new Promise(res => User.findOne({ email }, (err, data) => res(data))));
 };
 
 export const checkAuth = async (token?: string): Promise<payload | null> => {
 	if (!token) {
 		return null;
 	}
-	const secret = process.env.PRIVATE_KEY
-	if(!secret) {
-		console.log("JWT Private key is not set. please set one immediately")
-		process.exit(1)
+	const secret = process.env.PRIVATE_KEY;
+	if (!secret) {
+		console.log("JWT Private key is not set. please set one immediately");
+		process.exit(1);
 	}
 	const payload: payload | string = jwt.verify(token, secret);
 	if (typeof payload === "string") {
@@ -205,4 +203,19 @@ export const getPage = (owner: string): Promise<Page> => {
 			}
 		})
 	);
+};
+
+export const addLink = async (owner: string, link: Link): Promise<Page> => {
+	const linkSet = await getPage(owner);
+	link.id = uid();
+	linkSet.links.push(link);
+	linkSet.save();
+	return linkSet;
+};
+
+export const updateLink = async (owner: string, link: Link): Promise<Page> => {
+	const linkSet = await getPage(owner);
+	const linkIndex = linkSet.links.findIndex(li => li.id === link.id)
+	linkSet.links[linkIndex] = link 
+	return linkSet;
 };
