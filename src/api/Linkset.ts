@@ -1,8 +1,7 @@
 import { Router, Request } from "express";
-import uid from "uid";
 import LinkSet from "../models/LinkSet.model";
 import { Link } from "../types/LinkSet";
-import { getPage } from "../utils/functions";
+import { addLink } from "../utils/functions";
 import checkAuth from "../middleware/check-auth";
 const router = Router();
 
@@ -27,16 +26,11 @@ router.post("/:username/create", async (req, res, next) => {
 	res.json({ code: 200, data: newLinkSet });
 });
 
-router.patch(
-	"/:username/add",
-	async (req: Request<{ username: string }, unknown, Link>, res, next) => {
-		const owner = req.params.username;
-		const linkSet = await getPage(owner);
-		const link = req.body;
-		link.id = uid();
-		linkSet.links.push(link);
-		linkSet.save()
-	}
-);
+router.patch("/add", async (req: Request<{ username: string }, unknown, Link>, res, next) => {
+	const owner = req.userData.userId;
+	if (!owner) return res.status(400).json({ code: 400, message: "Unauthorized" });
+	const page = await addLink(owner, req.body);
+	res.json({ code: 200, data: page });
+});
 
 export = router;
