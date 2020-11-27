@@ -14,7 +14,8 @@
     "release": "npm-run-all build run-release",
     "run-release": "npm publish",
     "test": "jest",
-    "prettier": "npx eslint --fix . && prettier --write ."
+	"prettier": "npx eslint --fix . && prettier --write .",
+	"dev": "concurrently \"tsc -w\" \"nodemon dist/index.js\""
   },
   "author": "",
   "license": "MIT",
