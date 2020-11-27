@@ -18,6 +18,16 @@ export const typeDefs = gql`
 		color: String!,
 		active: Boolean!
 	}
+	input LinkBody{
+		path: String!,
+		embed: Boolean,
+		image: String,
+		name: String!,
+		order: Int!,
+		color: String!,
+		active: Boolean!
+		id: String
+	}
 	type Page{
 		owner: String!,
 		links: [Link]!,
@@ -30,12 +40,16 @@ export const typeDefs = gql`
 	}
 	type Query {
 		users: [User]
-		user(id: ID!): User,
+		user(id: ID, username: String): User,
 		page(name: String!): Page
 	}
 	type Mutation {
 		login (email: String!, password: String!): AuthResult
 		register (username: String!, email: String!, password: String!): AuthResult 
-		update (Authorization: String!, username: String, email: String, password: String, photo: String, bio: String, phone: String ): User
+		updateUserProfile (username: String, email: String, password: String, photo: String, bio: String, phone: String ): User
+		createPage: Page
+		addLink(link: LinkBody): Page,
+		addLinks(links: [LinkBody]): Page,
+		updateLink(link: LinkBody): Page
 	}
 `;
