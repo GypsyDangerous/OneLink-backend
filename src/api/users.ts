@@ -1,10 +1,6 @@
 import User from "../models/User.model";
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
-import { NextFunction, Request, Response, Router } from "express";
-import { AuthRequest } from "../types/Request";
+import {  Response, Router } from "express";
 import { hasUniqueEmail } from "../middleware";
-import { saltRounds } from "../utils/constants";
 import checkAuth from "../middleware/check-auth";
 import { updateUser } from "../utils/functions";
 const router = Router();
@@ -30,9 +26,9 @@ router.delete("/delete/:id", async (req, res) => {
 	}
 });
 
-router.patch("/update/:id", hasUniqueEmail, async (req: AuthRequest, res: Response) => {
+router.patch("/update/:id", hasUniqueEmail, async (req, res: Response) => {
 	try {
-		const result = await updateUser(req.params.id, req.body);
+		const result = await updateUser(req.userData.userId, req.body);
 		res.status(result.code).json(result);
 	} catch (err) {
 		res.status(500).json({ code: 500, message: "Error: " + err.message });
