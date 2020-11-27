@@ -1,9 +1,18 @@
 import User from "../models/User.model";
-import {  Response, Router } from "express";
+import { Response, Router } from "express";
 import { hasUniqueEmail } from "../middleware";
 import checkAuth from "../middleware/check-auth";
 import { updateUser } from "../utils/functions";
 const router = Router();
+import QRCode from "qrcode";
+
+router.get("/qr/:username", (req, res, next) => {
+	QRCode.toBuffer(`https://www.onelinkapp.xyz/${req.params.username}`, (err, buffer) => {
+		res.setHeader("content-type", "image/png");
+		res.write(buffer, "binary");
+		res.end(null, "binary");
+	});
+});
 
 router.get("/get/:id", async (req, res, next) => {
 	try {
