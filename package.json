@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "npx eslint .",
     "lint:fix": "npx eslint --fix .",
-    "build": "npx tsc",
+    "build": "tsc",
     "run": "node dist/index.js",
     "start": "npm-run-all build run",
     "build-tests": "npm-run-all build test",
