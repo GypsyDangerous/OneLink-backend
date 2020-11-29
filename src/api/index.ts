@@ -4,6 +4,7 @@ import { fileDownload } from "../middleware/download_file";
 import auth from "./auth";
 import users from "./users";
 import pages from "./Linkset";
+import checkAuth from "../middleware/check-auth";
 
 const router = Router();
 
@@ -19,6 +20,10 @@ router.post("/upload", fileUpload.single("image"), async (req, res, next) => {
 		message: "image uploaded successfully",
 		data: { imageUrl: req.file.path },
 	});
+});
+
+router.get("/token/ping", checkAuth, (req, res) => {
+	res.json({ code: 200, message: "Token is valid" });
 });
 
 router.use("/users", users);
