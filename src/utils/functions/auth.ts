@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import User from "../../models/User.model";
 import { passwordMin, passwordMax, usernameMin, usernameMax, emailMin } from "../constants";
 import { getAuthSecret, getRefreshSecret } from "./getters";
+import { validateCredentials } from "./validation";
 
 export const createAuthToken = (payload: payload): string => {
 	return jwt.sign(payload, getAuthSecret(), {
@@ -34,17 +35,8 @@ export const checkAuth = async (token?: string): Promise<payload | null> => {
 };
 
 export const login = async (email: string, password: string): Promise<loginResult> => {
-	if (!password || password.length < passwordMin || password.length > passwordMax) {
-		return {
-			success: false,
-			code: 400,
-			message: "Error: password is invalid or missing",
-		};
-	}
-	if (!email || email.length < emailMin) {
-		return { success: false, code: 400, message: "Error: email is invalid or missing" };
-	}
-
+	const result = validateCredentials({ email, password }, false);
+	if (!result.success) return result;
 	// email should not be case sensitive
 	email = email.toLowerCase();
 
@@ -56,13 +48,7 @@ export const login = async (email: string, password: string): Promise<loginResul
 
 	// check if the password hash in the database matches the password that was sent in, if not return an error
 	if (user.validPassword(password)) {
-		const token = await jwt.sign(
-			{ userId: user.id, email: email },
-			process.env.PRIVATE_KEY || "",
-			{
-				expiresIn: "1d",
-			}
-		);
+		const token = createAuthToken({ userId: user._id, email });
 
 		return {
 			code: 200,
@@ -81,36 +67,15 @@ export const register = async (
 	email: string,
 	password: string
 ): Promise<loginResult> => {
-	if (!password || password.length < passwordMin || password.length > passwordMax) {
-		return {
-			success: false,
-			code: 400,
-			message: "Error: password is invalid or missing",
-		};
-	}
-	if (!email || email.length < emailMin) {
-		return { success: false, code: 400, message: "Error: email is invalid or missing" };
-	}
-	if (!username || username.length < usernameMin || username.length > usernameMax) {
-		return {
-			success: false,
-			code: 400,
-			message: "Error: username is invalid or missing",
-		};
-	}
+	const result = validateCredentials({ email, password, username }, true);
+	if (!result.success) return result;
 
 	email = email.toLowerCase();
 	const newUser = new User({ username, email });
 	newUser.password = newUser.generateHash(password);
 	await newUser.save();
 
-	const token = await jwt.sign(
-		{ userId: newUser._id, email: email },
-		process.env.PRIVATE_KEY || "",
-		{
-			expiresIn: "1d",
-		}
-	);
+	const token = createAuthToken({ userId: newUser._id, email });
 
 	return {
 		code: 200,
