@@ -20,3 +20,20 @@ export const getPage = (owner: string): Promise<Page> => {
 		})
 	);
 };
+
+export const getSecret = (key: string): string => {
+	const secret = process.env[key];
+	if (!secret) {
+		console.log(`JWT ${key} is not set, please set one immediatley`);
+		process.exit(1);
+	}
+	return secret;
+};
+
+export const getAuthSecret = (): string => {
+	return getSecret("AUTH_SECRET");
+};
+
+export const getRefreshSecret = (): string => {
+	return getSecret("REFRESH_SECRET");
+};
