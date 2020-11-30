@@ -1,5 +1,5 @@
 import User from "../models/User.model";
-import LinkSet, { update } from "../models/LinkSet.model";
+import LinkSet from "../models/LinkSet.model";
 import { DocumentQuery } from "mongoose";
 import {
 	checkUniqueEmail,
