@@ -21,12 +21,11 @@ export const checkAuth = async (token?: string): Promise<payload | null> => {
 	if (!token) {
 		return null;
 	}
-	const secret = process.env.PRIVATE_KEY;
-	if (!secret) {
-		console.log("JWT Private key is not set. please set one immediately");
-		process.exit(1);
-	}
-	const payload: payload | string = jwt.verify(token, secret);
+	const sections = token.split(" ");
+	if (sections[0] !== "Bearer") return null;
+
+	const secret = getAuthSecret();
+	const payload: payload | string = jwt.verify(sections[1], secret);
 	if (typeof payload === "string") {
 		return null;
 	} else {
