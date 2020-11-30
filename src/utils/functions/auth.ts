@@ -1,14 +1,20 @@
 import { loginResult, payload } from "../../types/Auth";
 import jwt from "jsonwebtoken";
 import User from "../../models/User.model";
-import {
-	passwordMin,
-	passwordMax,
-	usernameMin,
-	usernameMax,
-	emailMin,
+import { passwordMin, passwordMax, usernameMin, usernameMax, emailMin } from "../constants";
+import { getAuthSecret, getRefreshSecret } from "./getters";
 
-} from "../constants";
+export const createAuthToken = (payload: payload): string => {
+	return jwt.sign(payload, getAuthSecret(), {
+		expiresIn: "1d",
+	});
+};
+
+export const createRefreshToken = (payload: payload): string => {
+	return jwt.sign(payload, getRefreshSecret(), {
+		expiresIn: "1d",
+	});
+};
 
 export const checkAuth = async (token?: string): Promise<payload | null> => {
 	if (!token) {
