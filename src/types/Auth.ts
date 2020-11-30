@@ -1,6 +1,6 @@
 export interface payload {
 	userId?: string;
-	email?: string
+	email?: string;
 }
 
 export interface loginResult {
@@ -9,4 +9,9 @@ export interface loginResult {
 	token?: string;
 	userId?: string;
 	success: boolean;
+}
+export interface Credentials {
+	username?: string;
+	email?: string;
+	password?: string;
 }
