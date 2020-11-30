@@ -3,3 +3,5 @@ declare namespace Express {
 		userData: { userId?: string };
 	}
 }
+
+declare module "apollo-server-plugin-http-headers";

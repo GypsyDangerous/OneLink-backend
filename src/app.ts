@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { ApolloServer } from "apollo-server-express";
 import { typeDefs, resolvers, context } from "./graphql";
+import httpHeadersPlugin from "apollo-server-plugin-http-headers"
 dotenv.config();
 
 // const middlewares = require("./middlewares");
@@ -30,7 +31,7 @@ connection.once("open", () => {
 	console.log("MongoDB database connection successful");
 });
 
-const server = new ApolloServer({ typeDefs, resolvers, context });
+const server = new ApolloServer({ typeDefs, resolvers, context, plugins: [httpHeadersPlugin], });
 
 server.applyMiddleware({ app });
 
