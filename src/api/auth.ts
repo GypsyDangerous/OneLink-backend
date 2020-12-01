@@ -16,8 +16,8 @@ router.post("/register", hasUniqueEmail, async (req, res) => {
 router.post("/login", async (req, res) => {
 	try {
 		const { password, email } = req.body;
-		const loginResult = await login(email, password);
-		res.status(loginResult.code).json(loginResult);
+		const AuthResult = await login(email, password);
+		res.status(AuthResult.code).json(AuthResult);
 	} catch (err) {
 		res.status(500).json({ success: false, code: 500, message: "Error: " + err.message });
 	}
