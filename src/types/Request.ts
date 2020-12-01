@@ -20,10 +20,15 @@ export interface Cookie {
 	};
 }
 
+export interface Header {
+	key: string;
+	value: string;
+}
+
 export interface Context {
 	id?: string;
 	req: Request;
 	res: Response;
 	setCookies: Cookie[];
-	setHeaders: any[];
+	setHeaders: Header[];
 }
