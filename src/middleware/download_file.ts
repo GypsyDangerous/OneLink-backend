@@ -1,12 +1,23 @@
-import {  Response, Request } from "express";
-import { get_image_filename, downloadFile as download } from "../utils/functions";
-import {UrlBody} from "../types/Request"
+import { Response, Request, NextFunction } from "express";
+import {
+	get_image_filename,
+	downloadFile as download,
+	get_url_extension,
+} from "../utils/functions";
 
-export const fileDownload = async (req: Request<Record<string, unknown>, unknown, UrlBody>, res: Response) : Promise<void> => {
-	const {url} = req.body
-	const ext = url.split(".").slice(-1)[0].split("?")[0].replace(/[^a-z.]/ig, "")
-	const filename = get_image_filename(ext)
-	download(url, filename, () => {
-		res.json({code: 200, message: "file downloaded succesfully", filename})
-	})
+export const fileDownload = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+): Promise<void> => {
+	const { url } = req.body;
+	const file_extension = get_url_extension(url);
+	if (!file_extension) {
+		next(new Error("invalid file url"));
+	} else {
+		const filename = get_image_filename(file_extension);
+		download(url, filename, () => {
+			res.json({ code: 200, message: "file downloaded succesfully", filename });
+		});
+	}
 };
