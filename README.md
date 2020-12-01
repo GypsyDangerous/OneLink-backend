@@ -1,7 +1,7 @@
 <br />
 <p align="center">
   <a href="#">
-    <h1>OneLink Server</h1>
+    <h1 align="center">OneLink Server</h1>
   </a>
 
   <p align="center">
