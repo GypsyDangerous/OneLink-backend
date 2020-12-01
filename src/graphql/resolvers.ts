@@ -12,6 +12,7 @@ import {
 } from "../utils/functions";
 import { UserModification } from "../types/User";
 import { LinkSet as Page, Link } from "../types/LinkSet";
+import { Context } from "../types/Request";
 
 export const resolvers = {
 	Query: {
@@ -38,25 +39,51 @@ export const resolvers = {
 	Mutation: {
 		login: async (
 			parent: unknown,
-			{ email, password }: { email: string; password: string }
+			{ email, password }: { email: string; password: string },
+			context: Context
 		): Promise<{ token?: string; user: DocumentQuery<User | null, User, unknown> }> => {
-			const loginResult = await login(email, password);
-			if (loginResult.code !== 200)
-				throw new Error(`Error ${loginResult.code}: ${loginResult.message}`);
-			const user = User.findById(loginResult.userId);
-			return { user, token: loginResult.token };
+			const AuthResult = await login(email, password);
+
+			if (AuthResult.code !== 200) {
+				throw new Error(`Error ${AuthResult.code}: ${AuthResult.message}`);
+			}
+
+			context.setCookies.push({
+				name: "refresh_token",
+				value: AuthResult.refresh_token,
+				options: {
+					httpOnly: true,
+				},
+			});
+
+			const user = User.findById(AuthResult.userId);
+			return { user, token: AuthResult.token };
 		},
 		register: async (
 			parent: unknown,
-			{ username, email, password }: { username: string; email: string; password: string }
+			{ username, email, password }: { username: string; email: string; password: string },
+			context: Context
 		): Promise<{ token?: string; user: DocumentQuery<User | null, User, unknown> }> => {
-			if (await checkUniqueEmail(email))
+			if (await checkUniqueEmail(email)) {
 				throw new Error("A user with that email already exists");
-			const loginResult = await register(username, email, password);
-			if (loginResult.code !== 200)
-				throw new Error(`Error ${loginResult.code}: ${loginResult.message}`);
-			const user = User.findById(loginResult.userId);
-			return { user, token: loginResult.token };
+			}
+
+			const AuthResult = await register(username, email, password);
+
+			if (AuthResult.code !== 200) {
+				throw new Error(`Error ${AuthResult.code}: ${AuthResult.message}`);
+			}
+
+			context.setCookies.push({
+				name: "refresh_token",
+				value: AuthResult.refresh_token,
+				options: {
+					httpOnly: true,
+				},
+			});
+
+			const user = User.findById(AuthResult.userId);
+			return { user, token: AuthResult.token };
 		},
 		updateUserProfile: async (
 			parent: unknown,
@@ -109,10 +136,10 @@ export const resolvers = {
 			parent: unknown,
 			{ theme, linkCount }: { theme?: string; linkCount?: number },
 			context: { id?: string }
-			): Promise<Page> => {
-				const { id } = context;
-				if (!id) throw new Error("Unauthorized");
-				return updatePage(id, theme, linkCount)
+		): Promise<Page> => {
+			const { id } = context;
+			if (!id) throw new Error("Unauthorized");
+			return updatePage(id, theme, linkCount);
 		},
 	},
 };
