@@ -1,7 +1,6 @@
 import { loginResult, payload } from "../../types/Auth";
 import jwt from "jsonwebtoken";
 import User from "../../models/User.model";
-import { passwordMin, passwordMax, usernameMin, usernameMax, emailMin } from "../constants";
 import { getAuthSecret, getRefreshSecret } from "./getters";
 import { validateCredentials } from "./validation";
 
