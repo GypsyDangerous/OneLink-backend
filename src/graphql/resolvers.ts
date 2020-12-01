@@ -26,8 +26,8 @@ export const resolvers = {
 		): DocumentQuery<User | null, User, unknown> => {
 			if (context.id) {
 				return User.findById(context.id);
-			}else{
-				throw new Error("Unauthorized")
+			} else {
+				throw new Error("Unauthorized");
 			}
 		},
 		page: (
@@ -54,6 +54,7 @@ export const resolvers = {
 				value: AuthResult.refresh_token,
 				options: {
 					httpOnly: true,
+					path: "/refresh_token",
 				},
 			});
 
@@ -80,6 +81,7 @@ export const resolvers = {
 				value: AuthResult.refresh_token,
 				options: {
 					httpOnly: true,
+					path: "/refresh_token",
 				},
 			});
 
