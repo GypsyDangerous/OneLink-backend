@@ -69,7 +69,7 @@ To run the server you will also need to provide the `.env` variables
 ```sh
 npm run dev
 ```
-
+<!-- 
 ## :open_file_folder: What's inside?
 
 A quick look at the folder structure of this project.
@@ -97,6 +97,7 @@ A quick look at the folder structure of this project.
         ├───tests
         └───utils
 
+ -->
 ## :v: Contributing
 
 After cloning & setting up the local project you can push the changes to your github fork and make a pull request.
