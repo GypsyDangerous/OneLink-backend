@@ -3,10 +3,11 @@ export interface payload {
 	email?: string;
 }
 
-export interface loginResult {
+export interface AuthResult {
 	code: number;
 	message: string;
 	token?: string;
+	refresh_token?: string;
 	userId?: string;
 	success: boolean;
 }

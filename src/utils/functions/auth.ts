@@ -1,4 +1,4 @@
-import { loginResult, payload } from "../../types/Auth";
+import { AuthResult, payload } from "../../types/Auth";
 import jwt from "jsonwebtoken";
 import User from "../../models/User.model";
 import { getAuthSecret, getRefreshSecret } from "./getters";
@@ -6,13 +6,13 @@ import { validateCredentials } from "./validation";
 
 export const createAuthToken = (payload: payload): string => {
 	return jwt.sign(payload, getAuthSecret(), {
-		expiresIn: "1d",
+		expiresIn: "15m",
 	});
 };
 
 export const createRefreshToken = (payload: payload): string => {
 	return jwt.sign(payload, getRefreshSecret(), {
-		expiresIn: "1d",
+		expiresIn: "7d",
 	});
 };
 
@@ -32,7 +32,7 @@ export const checkAuth = async (token?: string): Promise<payload | null> => {
 	}
 };
 
-export const login = async (email: string, password: string): Promise<loginResult> => {
+export const login = async (email: string, password: string): Promise<AuthResult> => {
 	const result = validateCredentials({ email, password }, false);
 	if (!result.success) return result;
 	// email should not be case sensitive
@@ -47,12 +47,14 @@ export const login = async (email: string, password: string): Promise<loginResul
 	// check if the password hash in the database matches the password that was sent in, if not return an error
 	if (user.validPassword(password)) {
 		const token = createAuthToken({ userId: user._id, email });
+		const refresh_token = createRefreshToken({ userId: user._id, email });
 
 		return {
 			code: 200,
 			success: true,
 			message: "Valid Sign in",
 			token: token,
+			refresh_token,
 			userId: user._id,
 		};
 	} else {
@@ -64,7 +66,7 @@ export const register = async (
 	username: string,
 	email: string,
 	password: string
-): Promise<loginResult> => {
+): Promise<AuthResult> => {
 	const result = validateCredentials({ email, password, username }, true);
 	if (!result.success) return result;
 
@@ -74,12 +76,14 @@ export const register = async (
 	await newUser.save();
 
 	const token = createAuthToken({ userId: newUser._id, email });
+	const refresh_token = createRefreshToken({ userId: newUser._id, email });
 
 	return {
 		code: 200,
 		success: true,
 		message: "Valid Register",
 		token: token,
+		refresh_token,
 		userId: newUser.id,
 	};
 };
