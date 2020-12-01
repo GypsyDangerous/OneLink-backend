@@ -4,7 +4,10 @@ import { checkUniqueEmail } from "../utils/functions";
 export function notFound(req: Request, res: Response, next: NextFunction): void {
 	res.status(404);
 	const error = new Error(`🔍 - Not Found - ${req.originalUrl}`);
-	next(error);
+	res.json({
+		message: error.message,
+		stack: process.env.NODE_ENV === "production" ? "🥞" : error.stack,
+	});
 }
 
 /* eslint-disable no-unused-vars */
