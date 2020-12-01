@@ -1,8 +1,8 @@
 import User from "../../../models/User.model";
-import LinkSet from "../../../models/LinkSet.model";
+import Page from "../../../models/Page.model";
 import { DocumentQuery } from "mongoose";
 
-import { LinkSet as Page } from "../../../types/LinkSet";
+import { Page as Page } from "../../../types/Page";
 import { Context } from "../../../types/Request";
 
 export const Query = {
@@ -24,6 +24,6 @@ export const Query = {
 		parent: unknown,
 		{ name }: { name: string }
 	): DocumentQuery<Page | null, Page, unknown> => {
-		return LinkSet.findOne({ owner: name });
+		return Page.findOne({ owner: name });
 	},
 };

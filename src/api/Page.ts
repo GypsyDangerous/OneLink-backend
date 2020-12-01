@@ -1,13 +1,13 @@
 import { Router, Request } from "express";
-import LinkSet from "../models/LinkSet.model";
-import { Link } from "../types/LinkSet";
+import Page from "../models/Page.model";
+import { Link } from "../types/Page";
 import { addLink } from "../utils/functions";
 import checkAuth from "../middleware/check-auth";
 const router = Router();
 
 router.get("/:username", (req, res, next) => {
 	const user = req.params.username;
-	const page = LinkSet.findOne({ owner: user });
+	const page = Page.findOne({ owner: user });
 	if (page) {
 		res.json({ code: 200, data: page });
 	} else {
@@ -18,12 +18,12 @@ router.get("/:username", (req, res, next) => {
 router.use(checkAuth);
 
 router.post("/:username/create", async (req, res, next) => {
-	const linkset = {
+	const PageObject = {
 		owner: req.params.username,
 	};
-	const newLinkSet = new LinkSet(linkset);
-	await newLinkSet.save();
-	res.json({ code: 200, data: newLinkSet });
+	const newPage = new Page(PageObject);
+	await newPage.save();
+	res.json({ code: 200, data: newPage });
 });
 
 router.patch("/add", async (req: Request<{ username: string }, unknown, Link>, res, next) => {

@@ -3,7 +3,7 @@ import fileUpload from "../middleware/file-upload";
 import { fileDownload } from "../middleware/download_file";
 import auth from "./auth";
 import users from "./users";
-import pages from "./Linkset";
+import pages from "./Page";
 import checkAuth from "../middleware/check-auth";
 
 const router = Router();

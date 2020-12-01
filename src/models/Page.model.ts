@@ -1,8 +1,8 @@
 import mongoose, { Schema } from "mongoose";
-import {LinkSet} from "../types/LinkSet"
+import {Page} from "../types/Page"
 
 
-const LinkSetSchema = new Schema(
+const PageSchema = new Schema(
 	{
 		owner: { type: String, required: true },
 		links: { type: Array, required: true, default: [] },
@@ -22,6 +22,6 @@ const LinkSetSchema = new Schema(
 	}
 );
 
-const LinkSet = mongoose.model<LinkSet>("linkset", LinkSetSchema);
+const Page = mongoose.model<Page>("Page", PageSchema);
 
-export = LinkSet 
+export = Page 

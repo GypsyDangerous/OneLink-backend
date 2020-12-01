@@ -11,7 +11,7 @@ export interface Link {
 	id: string
 }
 
-export interface LinkSet extends mongoose.Document {
+export interface Page extends mongoose.Document {
 	owner: string;
 	links: Link[];
 	theme: string;

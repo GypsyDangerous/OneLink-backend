@@ -1,20 +1,20 @@
-import LinkSet from "../../../models/LinkSet.model";
+import Page from "../../../models/Page.model";
 import { addLink, updatePage, updateLink } from "../../../utils/functions";
-import { LinkSet as Page, Link } from "../../../types/LinkSet";
+import { Page as PageType, Link } from "../../../types/Page";
 
 export const page = {
-	createPage: async (parent: unknown, args: unknown, context: { id: string }): Promise<Page> => {
+	createPage: async (parent: unknown, args: unknown, context: { id: string }): Promise<PageType> => {
 		const { id } = context;
 		if (!id) throw new Error("Unauthorized");
-		const newLinkSet = new LinkSet({ owner: id });
-		await newLinkSet.save();
-		return newLinkSet;
+		const newPage = new Page({ owner: id });
+		await newPage.save();
+		return newPage;
 	},
 	addLink: async (
 		parent: unknown,
 		{ link }: { link: Link },
 		context: { id?: string }
-	): Promise<Page> => {
+	): Promise<PageType> => {
 		const { id } = context;
 		if (!id) throw new Error("Unauthorized");
 		return addLink(id, link);
@@ -23,7 +23,7 @@ export const page = {
 		parent: unknown,
 		{ link }: { link: Link },
 		context: { id: string }
-	): Promise<Page> => {
+	): Promise<PageType> => {
 		const { id } = context;
 		if (!id) throw new Error("Unauthorized");
 		return updateLink(id, link);
@@ -32,7 +32,7 @@ export const page = {
 		parent: unknown,
 		{ theme, linkCount }: { theme?: string; linkCount?: number },
 		context: { id?: string }
-	): Promise<Page> => {
+	): Promise<PageType> => {
 		const { id } = context;
 		if (!id) throw new Error("Unauthorized");
 		return updatePage(id, theme, linkCount);

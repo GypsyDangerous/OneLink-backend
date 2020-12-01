@@ -2,7 +2,7 @@ import { saltRounds } from "../constants";
 import { UserModification } from "../../types/User";
 import bcrypt from "bcrypt";
 import { getPage } from "./getters";
-import { LinkSet as Page, Link } from "../../types/LinkSet";
+import { Page as Page, Link } from "../../types/Page";
 import User from "../../models/User.model"
 import uid from "uid"
 
@@ -40,18 +40,18 @@ export const updateUser = async (
 };
 
 export const addLink = async (owner: string, link: Link): Promise<Page> => {
-	const linkSet = await getPage(owner);
+	const Page = await getPage(owner);
 	link.id = uid();
-	linkSet.links.push(link);
-	linkSet.save();
-	return linkSet;
+	Page.links.push(link);
+	Page.save();
+	return Page;
 };
 
 export const updateLink = async (owner: string, link: Link): Promise<Page> => {
-	const linkSet = await getPage(owner);
-	const linkIndex = linkSet.links.findIndex(li => li.id === link.id);
-	linkSet.links[linkIndex] = link;
-	return linkSet;
+	const Page = await getPage(owner);
+	const linkIndex = Page.links.findIndex(li => li.id === link.id);
+	Page.links[linkIndex] = link;
+	return Page;
 };
 
 export const updatePage = async (
@@ -59,8 +59,8 @@ export const updatePage = async (
 	theme?: string,
 	linkCount?: number
 ): Promise<Page> => {
-	const linkSet = await getPage(owner);
-	if (theme) linkSet.theme = theme;
-	if (linkCount) linkSet.linkCount = linkCount;
-	return linkSet;
+	const Page = await getPage(owner);
+	if (theme) Page.theme = theme;
+	if (linkCount) Page.linkCount = linkCount;
+	return Page;
 };
