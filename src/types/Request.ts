@@ -7,10 +7,23 @@ export interface UrlBody extends Buffer {
 	url: string;
 }
 
+export interface Cookie {
+	name: string;
+	value: string;
+	options?: {
+		httpOnly?: boolean;
+		path?: string;
+		expires?: Date | string;
+		maxAge?: number;
+		sameSite?: boolean;
+		secure?: boolean;
+	};
+}
+
 export interface Context {
 	id?: string;
 	req: Request;
 	res: Response;
-	setCookies: any[];
+	setCookies: Cookie[];
 	setHeaders: any[];
 }

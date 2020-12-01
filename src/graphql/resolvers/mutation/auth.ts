@@ -11,7 +11,7 @@ export const auth = {
 	): Promise<{ token?: string; user: DocumentQuery<User | null, User, unknown> }> => {
 		const AuthResult = await login(email, password);
 
-		if (AuthResult.code !== 200) {
+		if (AuthResult.code !== 200 || !AuthResult.refresh_token) {
 			throw new Error(`Error ${AuthResult.code}: ${AuthResult.message}`);
 		}
 
