@@ -52,7 +52,6 @@ app.get("/", (req, res) => {
 app.post("/refresh_token", async (req, res, next) => {
 	const token: string = req.cookies["refresh_token"];
 
-	console.log(token);
 
 	if (!token) {
 		return res.status(401).json({ code: 401, message: "missing refresh token" });
@@ -66,7 +65,6 @@ app.post("/refresh_token", async (req, res, next) => {
 		const user = await User.findOne({ _id: payload.userId });
 
 		if (!user) throw "no user";
-		console.log(payload);
 
 		res.json({
 			code: 200,
