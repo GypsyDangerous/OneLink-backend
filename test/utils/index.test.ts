@@ -1,4 +1,5 @@
-import { get_url_extension } from "../../src/utils/functions";
+import { get_url_extension, validateCredentials, validateEmail } from "../../src/utils/functions";
+
 
 describe("Testing get url extension function", () => {
 	it("works for links with queries", () => {
@@ -9,3 +10,19 @@ describe("Testing get url extension function", () => {
 		).toBe("gif");
 	});
 });
+
+
+describe("Testing crediential validation", () => {
+	it("correctly detects an invalid email", () => {
+		const validation = validateEmail("david@g")
+		expect(validation).toBe(false)
+	})
+	it("correctly detects a vaild email", () => {
+		const validation = validateEmail("davidgray@gmail.com")
+		expect(validation).toBe(true)
+	})
+	it("works with a valid email and password when not checking username", () => {
+		const validation = validateCredentials({email: "davidgraygs4@gmail.com", password: "Junglecraft6"}, false)
+		expect(validation.code).toBe(200)
+	})
+})
