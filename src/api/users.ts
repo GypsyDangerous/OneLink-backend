@@ -14,6 +14,9 @@ router.get("/qr/:username", (req, res, next) => {
 	});
 });
 
+
+router.use(checkAuth);
+
 router.get("/get/:id", async (req, res, next) => {
 	try {
 		const userId = req.params.id;
@@ -24,7 +27,6 @@ router.get("/get/:id", async (req, res, next) => {
 	}
 });
 
-router.use(checkAuth);
 
 router.delete("/delete/:id", async (req, res) => {
 	try {
