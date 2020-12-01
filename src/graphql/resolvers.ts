@@ -21,12 +21,13 @@ export const resolvers = {
 		},
 		user: (
 			parent: unknown,
-			{ id, username }: { id?: string; username?: string }
+			args: unknown,
+			context: Context
 		): DocumentQuery<User | null, User, unknown> => {
-			if (id) {
-				return User.findById(id);
-			} else {
-				return User.findOne({ username });
+			if (context.id) {
+				return User.findById(context.id);
+			}else{
+				throw new Error("Unauthorized")
 			}
 		},
 		page: (
