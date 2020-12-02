@@ -49,7 +49,7 @@ app.get("/", (req, res) => {
 	});
 });
 
-app.post("/refresh_token", async (req, res, next) => {
+app.post("/refresh_token", async (req, res) => {
 	const token: string = req.cookies["refresh_token"];
 
 
