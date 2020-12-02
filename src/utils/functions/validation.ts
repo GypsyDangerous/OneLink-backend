@@ -9,14 +9,6 @@ import {
 } from "../constants";
 import { Credentials, AuthResult } from "../../types/Auth";
 
-export const validateEmail = (email?: string): boolean => {
-	// if the email is too short or doesn't exist it is automatically invalid
-	if (!email || email.length < emailMin) return false;
-
-	// make sure the email is in the corrent form based on the regex
-	return emailRegex.test(email);
-};
-
 export const validateLength = (value: string, min: number, max: number): boolean => {
 	const ToLong = value.length > max;
 	const ToShort = value.length < min;
@@ -25,12 +17,20 @@ export const validateLength = (value: string, min: number, max: number): boolean
 	return !invalid;
 };
 
+export const validateEmail = (email?: string): boolean => {
+	// if the email is too short or doesn't exist it is automatically invalid
+	if (!email || !validateLength(email, emailMin, Infinity)) return false;
+
+	// make sure the email is in the corrent form based on the regex
+	return emailRegex.test(email);
+};
+
 export const validatePassword = (password?: string): boolean => {
-	return validateLength(password || "", passwordMin, passwordMin);
+	return validateLength(password || "", passwordMin, passwordMax);
 };
 
 export const validateUsername = (username?: string): boolean => {
-	return validateLength(username || "", usernameMin, usernameMin);
+	return validateLength(username || "", usernameMin, usernameMax);
 };
 
 export const hasUniqueEmail = async (email: string): Promise<boolean> => {
