@@ -17,14 +17,21 @@ export const validateEmail = (email?: string): boolean => {
 	return emailRegex.test(email);
 };
 
-export const validatePassword = (password?: string): boolean => {
-	if (!password) return false;
-	const passwordToLong = password.length > passwordMax;
-	const passwordToShort = password.length < passwordMin;
-	
-	const invalidPassword = passwordToLong || passwordToShort
-	return !invalidPassword;
+export const validateLength = (value: string, min: number, max: number): boolean => {
+	const ToLong = value.length > max;
+	const ToShort = value.length < min;
+
+	const invalid = ToLong || ToShort;
+	return !invalid;
 };
+
+export const validatePassword = (password?: string): boolean => {
+	return validateLength(password || "", passwordMin, passwordMin);
+};
+
+export const validateUsername = (username?: string): boolean => {
+	return validateLength(username || "", usernameMin, usernameMin)
+}
 
 export const checkUniqueEmail = async (email: string): Promise<boolean> => {
 	if (!email) {
