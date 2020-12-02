@@ -44,6 +44,11 @@ export const validateCredentials = (
 	{ username, email, password }: Credentials,
 	checkUsername: boolean
 ): AuthResult => {
+	const valid = {
+		success: true,
+		code: 200,
+		message: "",
+	};
 	if (!validatePassword(password)) {
 		return {
 			success: false,
@@ -54,18 +59,16 @@ export const validateCredentials = (
 	if (!validateEmail(email)) {
 		return { success: false, code: 400, message: "Error: email is invalid or missing" };
 	}
-	if (checkUsername) {
-		if (!username || username.length < usernameMin || username.length > usernameMax) {
-			return {
-				success: false,
-				code: 400,
-				message: "Error: username is invalid or missing",
-			};
-		}
+	
+	if (!checkUsername) return valid;
+
+	if (!validateUsername(username)) {
+		return {
+			success: false,
+			code: 400,
+			message: "Error: username is invalid or missing",
+		};
 	}
-	return {
-		success: true,
-		code: 200,
-		message: "",
-	};
+
+	return valid;
 };
