@@ -30,15 +30,14 @@ export const validatePassword = (password?: string): boolean => {
 };
 
 export const validateUsername = (username?: string): boolean => {
-	return validateLength(username || "", usernameMin, usernameMin)
-}
+	return validateLength(username || "", usernameMin, usernameMin);
+};
 
-export const checkUniqueEmail = async (email: string): Promise<boolean> => {
-	if (!email) {
-		return true;
-	}
+export const hasUniqueEmail = async (email: string): Promise<boolean> => {
+	if (!email) return false;
+
 	email = email.toLowerCase();
-	return !!(await new Promise(res => User.findOne({ email }, (err, data) => res(data))));
+	return !(await new Promise(res => User.findOne({ email }, (err, data) => res(data))));
 };
 
 export const validateCredentials = (

@@ -1,6 +1,6 @@
 import User from "../../../models/User.model";
 import { DocumentQuery } from "mongoose";
-import { checkUniqueEmail, login, register } from "../../../utils/functions";
+import { hasUniqueEmail, login, register } from "../../../utils/functions";
 import { Context } from "../../../types/Request";
 
 export const auth = {
@@ -32,7 +32,7 @@ export const auth = {
 		{ username, email, password }: { username: string; email: string; password: string },
 		context: Context
 	): Promise<{ token?: string; user: DocumentQuery<User | null, User, unknown> }> => {
-		if (await checkUniqueEmail(email)) {
+		if (!(await hasUniqueEmail(email))) {
 			throw new Error("A user with that email already exists");
 		}
 

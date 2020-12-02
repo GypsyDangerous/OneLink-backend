@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { checkUniqueEmail } from "../utils/functions";
+import { hasUniqueEmail as emailIsUnique } from "../utils/functions";
 
 export function notFound(req: Request, res: Response, next: NextFunction): void {
 	res.status(404);
@@ -27,7 +27,7 @@ export const hasUniqueEmail = async (
 	next: NextFunction
 ): Promise<void> => {
 	try {
-		const uniqueEmail = await checkUniqueEmail(req.body.email);
+		const uniqueEmail = await emailIsUnique(req.body.email);
 		if (uniqueEmail) {
 			return next();
 		}
