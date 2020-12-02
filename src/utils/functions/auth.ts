@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import User from "../../models/User.model";
 import { getAuthSecret, getRefreshSecret } from "./getters";
 import { validateCredentials } from "./validation";
+import { Context } from "../../types/Request";
 
 export const createAuthToken = (payload: payload): string => {
 	return jwt.sign(payload, getAuthSecret(), {
@@ -60,6 +61,21 @@ export const login = async (email: string, password: string): Promise<AuthResult
 	} else {
 		return { success: false, code: 401, message: "Invalid Email or Password" };
 	}
+};
+
+export const setRefreshToken = (context: Context, authResult: AuthResult): void => {
+	if (authResult.code !== 200 || !authResult.refresh_token) {
+		throw new Error(`Error ${authResult.code}: ${authResult.message}`);
+	}
+
+	context.setCookies.push({
+		name: "refresh_token",
+		value: authResult.refresh_token,
+		options: {
+			httpOnly: true,
+			path: "/refresh_token",
+		},
+	});
 };
 
 export const register = async (
