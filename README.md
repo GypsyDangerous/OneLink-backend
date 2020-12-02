@@ -22,6 +22,8 @@
 
 ## ✨ Features
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/4ab89d8ad21a4908958184dab83194b7)](https://app.codacy.com/gh/GypsyDangerous/OneLink-backend?utm_source=github.com&utm_medium=referral&utm_content=GypsyDangerous/OneLink-backend&utm_campaign=Badge_Grade)
+
 -   WIP
 
 ## Tech Stack
