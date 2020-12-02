@@ -22,10 +22,6 @@ router.post("/upload", fileUpload.single("image"), async (req, res) => {
 	});
 });
 
-router.get("/token/ping", checkAuth, (req, res) => {
-	res.json({ code: 200, message: "Token is valid", data: req.userData });
-});
-
 router.use("/users", users);
 router.use("/auth", auth);
 router.use("/page", pages);
