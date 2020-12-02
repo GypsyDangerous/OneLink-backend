@@ -1,4 +1,4 @@
-import { get_url_extension, validateCredentials, validateEmail } from "../../src/utils/functions";
+import { get_url_extension, validateCredentials, validateEmail, validatePassword } from "../../src/utils/functions";
 
 
 describe("Testing get url extension function", () => {
@@ -13,6 +13,18 @@ describe("Testing get url extension function", () => {
 
 
 describe("Testing crediential validation", () => {
+	it("correctly detects a password that is too short", () => {
+		const validation = validatePassword("short")
+		expect(validation).toBe(false)
+	})
+	it("correctly detects a password that is too long", () => {
+		const validation = validatePassword("adsfadsfklajsd;flkajds;flkasdj;flkasdfja;lskdfadfgsdfgsdfgsdfgsdfgsfdgsdfgdfgsdfgsfdg")
+		expect(validation).toBe(false)
+	})
+	it("correctly detects a valid", () => {
+		const validation = validatePassword("Junglecraft6")
+		expect(validation).toBe(true)
+	})
 	it("correctly detects an invalid email", () => {
 		const validation = validateEmail("david@g")
 		expect(validation).toBe(false)

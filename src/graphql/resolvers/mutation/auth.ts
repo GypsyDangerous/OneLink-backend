@@ -38,7 +38,8 @@ export const auth = {
 
 		const AuthResult = await register(username, email, password);
 
-		if (AuthResult.code !== 200) {
+		// TODO: put into seperate function
+		if (AuthResult.code !== 200 || !AuthResult.refresh_token) {
 			throw new Error(`Error ${AuthResult.code}: ${AuthResult.message}`);
 		}
 

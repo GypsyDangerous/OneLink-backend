@@ -2,7 +2,7 @@ import User from "../../../models/User.model";
 import Page from "../../../models/Page.model";
 import { DocumentQuery } from "mongoose";
 
-import { Page as Page } from "../../../types/Page";
+import { Page as PageType } from "../../../types/Page";
 import { Context } from "../../../types/Request";
 
 export const Query = {
@@ -23,7 +23,7 @@ export const Query = {
 	page: (
 		parent: unknown,
 		{ name }: { name: string }
-	): DocumentQuery<Page | null, Page, unknown> => {
+	): DocumentQuery<PageType | null, PageType, unknown> => {
 		return Page.findOne({ owner: name });
 	},
 };
