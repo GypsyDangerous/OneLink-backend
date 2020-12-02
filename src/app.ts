@@ -60,7 +60,7 @@ app.post("/refresh_token", async (req, res) => {
 	try {
 		const payload: payload | string = jwt.verify(token, getRefreshSecret());
 
-		if (typeof payload === "string") throw "bad payload";
+		if (typeof payload === "string") throw new Error("bad payload");
 
 		const user = await User.findOne({ _id: payload.userId });
 
