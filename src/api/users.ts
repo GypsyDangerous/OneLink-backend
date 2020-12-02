@@ -6,7 +6,7 @@ import { updateUser } from "../utils/functions";
 const router = Router();
 import QRCode from "qrcode";
 
-router.get("/qr/:username", (req, res, next) => {
+router.get("/qr/:username", (req, res) => {
 	QRCode.toBuffer(`https://www.onelinkapp.xyz/${req.params.username}`, (err, buffer) => {
 		res.setHeader("content-type", "image/png");
 		res.write(buffer, "binary");

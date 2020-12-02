@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
 
 router.put("/download", fileDownload);
 
-router.post("/upload", fileUpload.single("image"), async (req, res, next) => {
+router.post("/upload", fileUpload.single("image"), async (req, res) => {
 	res.json({
 		code: 200,
 		message: "image uploaded successfully",
