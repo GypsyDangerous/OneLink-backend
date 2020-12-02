@@ -9,7 +9,7 @@ import checkAuth from "../middleware/check-auth";
 const router = Router();
 
 router.get("/", (req, res) => {
-	res.json({ message: "ImShare Api", code: 200 });
+	res.json({ message: "onelink Api", code: 200 });
 });
 
 router.put("/download", fileDownload);
