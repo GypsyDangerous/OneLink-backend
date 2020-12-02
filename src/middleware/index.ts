@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { hasUniqueEmail as emailIsUnique } from "../utils/functions";
 
-export function notFound(req: Request, res: Response, next: NextFunction): void {
+export function notFound(req: Request, res: Response): void {
 	res.status(404);
 	const error = new Error(`🔍 - Not Found - ${req.originalUrl}`);
 	res.json({
