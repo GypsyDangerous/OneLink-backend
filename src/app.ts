@@ -26,7 +26,10 @@ if (process.env.DEBUG_MODE === "true") {
 	app.use(morgan(process.env.LOGGING_TYPE || "dev"));
 }
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+	origin: "http://localhost:3000",
+	credentials: true,
+}));
 app.use(express.json());
 app.use(cookie_parser());
 
@@ -39,7 +42,7 @@ connection.once("open", () => {
 
 const server = new ApolloServer({ typeDefs, resolvers, context, plugins: [httpHeadersPlugin] });
 
-server.applyMiddleware({ app });
+server.applyMiddleware({ app, cors: false });
 
 app.use(upload_path.substr(1), express.static(upload_path.substr(2)));
 
