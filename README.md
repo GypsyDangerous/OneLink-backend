@@ -39,7 +39,7 @@ Start developing locally.
 Fork the repository. then clone the repo locally by doing -
 
 ```sh
-git clone https://github.com/GypsyDangerous/onelink-server.git
+git clone https://github.com/GypsyDangerous/OneLink-backend.git
 ```
 
 ### Step 2: Install Dependencies
@@ -47,7 +47,7 @@ git clone https://github.com/GypsyDangerous/onelink-server.git
 cd into the directory
 
 ```sh
-cd onelink-server
+cd OneLink-backend
 ```
 
 In the root folder do npm install.
