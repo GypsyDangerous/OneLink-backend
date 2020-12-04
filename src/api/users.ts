@@ -26,9 +26,9 @@ router.post("/force_logout", async (req, res, next) => {
 	res.json({code: 200, message: "logout succeeded"})	
 })
 
-router.get("/get/:id", async (req, res, next) => {
+router.get("/@me", async (req, res, next) => {
 	try {
-		const userId = req.params.id;
+		const userId = req.userData.userId;
 		const user = await User.findById(userId);
 		res.json(user);
 	} catch (err) {
@@ -37,16 +37,16 @@ router.get("/get/:id", async (req, res, next) => {
 });
 
 
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/@me", async (req, res) => {
 	try {
-		await User.findOneAndDelete({ uuid: req.params.id });
-		res.json("User Deleted");
+		await User.findOneAndDelete({ uuid: req.userData.userId });
+		res.json({code: 200, message: "User Deleted"});
 	} catch (err) {
 		res.status(500).json({ code: 500, message: "Error: " + err.message });
 	}
 });
 
-router.patch("/update/:id", hasUniqueEmail, async (req, res: Response) => {
+router.patch("/update/@me", hasUniqueEmail, async (req, res: Response) => {
 	try {
 		const result = await updateUser(req.userData.userId, req.body);
 		res.status(result.code).json(result);

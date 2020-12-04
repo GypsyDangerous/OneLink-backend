@@ -16,9 +16,9 @@ router.get("/:username", (req, res, next) => {
 
 router.use(checkAuth);
 
-router.post("/:username/create", async (req, res) => {
+router.post("/create", async (req, res) => {
 	const PageObject = {
-		owner: req.params.username,
+		owner: req.userData.userId,
 	};
 	const newPage = new Page(PageObject);
 	await newPage.save();
