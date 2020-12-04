@@ -43,6 +43,7 @@ export const addLink = async (owner: string, link: Link): Promise<Page> => {
 	const Page = await getPage(owner);
 	link.id = uid();
 	Page.links.push(link);
+	Page.markModified('links');
 	Page.save();
 	return Page;
 };
@@ -51,6 +52,8 @@ export const updateLink = async (owner: string, link: Link): Promise<Page> => {
 	const Page = await getPage(owner);
 	const linkIndex = Page.links.findIndex(li => li.id === link.id);
 	Page.links[linkIndex] = link;
+	Page.markModified('links');
+	Page.save()
 	return Page;
 };
 
@@ -62,5 +65,6 @@ export const updatePage = async (
 	const Page = await getPage(owner);
 	if (theme) Page.theme = theme;
 	if (linkCount) Page.linkCount = linkCount;
+	Page.save()
 	return Page;
 };
