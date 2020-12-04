@@ -18,10 +18,9 @@ export const validateLength = (value: string, min: number, max: number): boolean
 };
 
 export const validateEmail = (email?: string): boolean => {
-	// if the email is too short or doesn't exist it is automatically invalid
+	// use infinity as the max because there is no limit to the length of an email
 	if (!email || !validateLength(email, emailMin, Infinity)) return false;
 
-	// make sure the email is in the corrent form based on the regex
 	return emailRegex.test(email);
 };
 
