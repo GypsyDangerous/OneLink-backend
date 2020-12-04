@@ -67,6 +67,8 @@ app.post("/refresh_token", async (req, res) => {
 
 		const user = await User.findOne({ _id: payload.userId });
 
+		if(user?.tokenVersion !== payload.tokenVersion) return res.status(401).json({code: 401, message: "old token"})
+
 		if (!user) throw "no user";
 
 		res.json({

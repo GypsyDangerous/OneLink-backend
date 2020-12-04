@@ -17,6 +17,15 @@ router.get("/qr/:username", (req, res) => {
 
 router.use(checkAuth);
 
+router.post("/force_logout", async (req, res, next) => {
+	const id = req.userData.userId
+	const user = await User.findById(id)
+	if(!user) return res.status(400).json({code: 400, message: "user not found"})
+	user.tokenVersion += 1
+	user.save()
+	res.json({code: 200, message: "logout succeeded"})	
+})
+
 router.get("/get/:id", async (req, res, next) => {
 	try {
 		const userId = req.params.id;

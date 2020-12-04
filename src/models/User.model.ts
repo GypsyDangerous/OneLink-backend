@@ -29,6 +29,7 @@ interface User extends mongoose.Document {
 	isDeleted?: boolean;
 	photo: string;
 	social: Socials;
+	tokenVersion: number,
 	generateHash: (password: string) => string;
 	validPassword: (password: string) => boolean;
 }
@@ -78,6 +79,11 @@ const UserSchema = new Schema(
 			required: false,
 			default: "/avatar.png",
 		},
+		tokenVersion: {
+			type: Number,
+			required: true,
+			default: 0,
+		}
 	},
 	{
 		timestamps: true,

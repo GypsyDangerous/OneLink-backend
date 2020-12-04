@@ -1,6 +1,7 @@
 export interface payload {
 	userId?: string;
 	email?: string;
+	tokenVersion?: number
 }
 
 export interface AuthResult {
