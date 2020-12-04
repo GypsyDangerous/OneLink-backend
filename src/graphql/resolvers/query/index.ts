@@ -6,10 +6,10 @@ import { Page as PageType } from "../../../types/Page";
 import { Context } from "../../../types/Request";
 
 export const Query = {
-	users: (): DocumentQuery<User[], User, unknown> => {
-		return User.find();
-	},
-	user: (
+	// users: (): DocumentQuery<User[], User, unknown> => {
+	// 	return User.find();
+	// },
+	me: (
 		parent: unknown,
 		args: unknown,
 		context: Context

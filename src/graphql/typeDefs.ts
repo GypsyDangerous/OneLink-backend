@@ -39,8 +39,7 @@ export const typeDefs = gql`
 		token: String!
 	}
 	type Query {
-		users: [User]
-		user: User,
+		me: User,
 		page(name: String!): Page
 	}
 	type Mutation {
