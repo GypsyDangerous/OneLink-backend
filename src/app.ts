@@ -26,10 +26,12 @@ if (process.env.DEBUG_MODE === "true") {
 	app.use(morgan(process.env.LOGGING_TYPE || "dev"));
 }
 app.use(helmet());
-app.use(cors({
-	origin: "http://localhost:3000",
-	credentials: true,
-}));
+app.use(
+	cors({
+		origin: "http://localhost:3000",
+		credentials: true,
+	})
+);
 app.use(express.json());
 app.use(cookie_parser());
 
@@ -55,7 +57,6 @@ app.get("/", (req, res) => {
 app.post("/refresh_token", async (req, res) => {
 	const token: string = req.cookies["refresh_token"];
 
-
 	if (!token) {
 		return res.status(401).json({ code: 401, message: "missing refresh token" });
 	}
@@ -67,9 +68,9 @@ app.post("/refresh_token", async (req, res) => {
 
 		const user = await User.findOne({ _id: payload.userId });
 
-		if(user?.tokenVersion !== payload.tokenVersion) return res.status(401).json({code: 401, message: "old token"})
+		if (user?.tokenVersion !== payload.tokenVersion) throw new Error("Old Token");
 
-		if (!user) throw "no user";
+		if (!user) throw new Error("no user");
 
 		res.json({
 			code: 200,
@@ -77,7 +78,7 @@ app.post("/refresh_token", async (req, res) => {
 		});
 	} catch (err) {
 		console.log(err.message);
-		res.status(401).json({ code: 401, message: "invalid refresh token" });
+		res.status(401).json({ code: 401, message: "invalid refresh token: " + err.message });
 	}
 });
 
