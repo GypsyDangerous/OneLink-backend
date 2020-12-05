@@ -1,12 +1,18 @@
 import Page from "../../../models/Page.model";
 import { addLink, updatePage, updateLink } from "../../../utils/functions";
 import { Page as PageType, Link } from "../../../types/Page";
+import User from "../../../models/User.model";
+import { Context } from "../../../types/Request";
 
 export const page = {
-	createPage: async (parent: unknown, args: unknown, context: { id: string }): Promise<PageType> => {
+	createPage: async (parent: unknown, args: unknown, context: Context): Promise<PageType> => {
 		const { id } = context;
 		if (!id) throw new Error("Unauthorized");
-		const newPage = new Page({ owner: id });
+		
+		// IMPORTANT DocumentQuery is like a promise
+		const owner = await User.findById(id)
+		if (!owner) throw new Error("Unauthorized");
+		const newPage = new Page({ owner: owner.username });
 		await newPage.save();
 		return newPage;
 	},
