@@ -17,7 +17,7 @@ router.get("/qr/:username", (req, res) => {
 
 router.use(checkAuth);
 
-router.post("/force_logout", async (req, res, next) => {
+router.post("/force_logout", async (req, res) => {
 	const id = req.userData.userId
 	const user = await User.findById(id)
 	if(!user) return res.status(400).json({code: 400, message: "user not found"})
