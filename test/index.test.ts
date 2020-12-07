@@ -2,19 +2,14 @@ import request from "supertest";
 
 import app from "../src/app";
 
-describe("app", () => {
-	it("responds with a not found message", done => {
-		expect(true).toBe(true)
-		done()
-		// return request(app)
-		// 	.get("/what-is-this-even")
-		// 	.set("Accept", "application/json")
-		// 	.expect("Content-Type", /json/)
-		// 	.expect(404, () => {
-		// 		console.log("done");
-		// 		done();
-		// 	});
-	});
+test("responds with a not found message", async () => {
+	// expect(true).toBe(true)
+	// done()
+	await request(app)
+		.get("/what-is-this-even")
+		// .set("Accept", "application/json")
+		// .expect("Content-Type", /json/)
+		.expect(404);
 });
 
 // describe("GET /", () => {
