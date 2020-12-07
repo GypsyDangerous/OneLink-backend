@@ -1,6 +1,22 @@
 import request from "supertest";
-
+import Controller from "../src/mongoose"
 import app from "../src/app";
+
+const uri = process.env.ATLAS_URI;
+
+if (!uri) {
+	throw new Error("Missing mongoose connection string");
+}
+
+const mongoose = new Controller(uri)
+
+beforeAll(async () => {
+	await mongoose.connect()
+})
+
+afterAll(async () => {
+	await mongoose.disconnect()
+})
 
 test("responds with a not found message", async () => {
 	// expect(true).toBe(true)
