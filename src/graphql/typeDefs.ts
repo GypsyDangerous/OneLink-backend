@@ -43,10 +43,11 @@ export const typeDefs = gql`
 		page(name: String!): Page
 	}
 	type Mutation {
-		login (email: String!, password: String!): AuthResult
+		login (email: String!, password: String!): AuthResult,
+		logout: Boolean
 		register (username: String!, email: String!, password: String!): AuthResult 
 		updateUserProfile (username: String, email: String, password: String, photo: String, bio: String, phone: String ): User
-		createPage: Page
+		createPage: Page,
 		addLink(link: LinkBody): Page,
 		addLinks(links: [LinkBody]): Page,
 		updateLink(link: LinkBody): Page

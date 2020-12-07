@@ -16,6 +16,10 @@ export const auth = {
 		const user = User.findById(AuthResult.userId);
 		return { user, token: AuthResult.token };
 	},
+	logout: async (parent: unknown, args: unknown, context: Context): Promise<boolean> => {
+		setRefreshToken(context, { code: 200, refresh_token: "", message: "", success: true });
+		return true;
+	},
 	register: async (
 		parent: unknown,
 		{ username, email, password }: { username: string; email: string; password: string },
