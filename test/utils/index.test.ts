@@ -18,7 +18,7 @@ describe("Testing crediential validation", () => {
 		expect(validation).toBe(false)
 	})
 	it("correctly detects a password that is too long", () => {
-		const validation = validatePassword("adsfadsfklajsd;flkajds;flkasdj;flkasdfja;lskdf")
+		const validation = validatePassword("adsfadsfklajsd;flkajds;flkasdj;kjkjujkujkjkjujkujkjkjujkujkjkjujkujkjkjujkujkjkjujkujkujkuflkasdfja;lskdf")
 		expect(validation).toBe(false)
 	})
 	it("correctly detects a valid", () => {
