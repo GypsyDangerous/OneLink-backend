@@ -11,7 +11,7 @@ const mongoose = new Controller(uri);
 
 mongoose.connect().then(() => {
 	const port = process.env.PORT || 3000;
-	mongoose.app?.connection.on("open", () => {
+	mongoose.app?.connection.once("open", () => {
 		console.log("MongoDB database connection successful");
 	});
 	app.listen(port, () => {
