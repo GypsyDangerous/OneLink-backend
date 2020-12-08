@@ -3,27 +3,23 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
 import dotenv from "dotenv";
-import { ApolloServer } from "apollo-server-express";
-import { typeDefs, resolvers, context } from "./graphql";
-import httpHeadersPlugin from "apollo-server-plugin-http-headers";
 import cookie_parser from "cookie-parser";
 import jwt from "jsonwebtoken";
-dotenv.config();
-
-// const middlewares = require("./middlewares");
+import server from "./graphql/server"
+import User from "./models/User.model";
+import api from "./api";
 import { notFound, errorHandler } from "./middleware";
 import { upload_path } from "./utils/constants";
-import api from "./api";
 import { payload } from "./types/Auth";
 import { createAuthToken, getRefreshSecret } from "./utils/functions";
-import User from "./models/User.model";
-// const api = require("./api");
+dotenv.config();
 
 const app = express();
 
 if (process.env.DEBUG_MODE === "true") {
 	app.use(morgan(process.env.LOGGING_TYPE || "dev"));
 }
+
 app.use(helmet());
 app.use(
 	cors({
@@ -33,8 +29,6 @@ app.use(
 );
 app.use(express.json());
 app.use(cookie_parser());
-
-const server = new ApolloServer({ typeDefs, resolvers, context, plugins: [httpHeadersPlugin] });
 
 server.applyMiddleware({ app, cors: false });
 
