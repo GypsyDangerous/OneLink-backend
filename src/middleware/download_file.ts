@@ -16,8 +16,7 @@ export const fileDownload = async (
 		next(new Error("invalid file url"));
 	} else {
 		const filename = get_image_filename(file_extension);
-		download(url, filename, () => {
-			res.json({ code: 200, message: "file downloaded succesfully", filename });
-		});
+		await download(url, filename);
+		res.json({ code: 200, message: "file downloaded succesfully", filename });
 	}
 };
