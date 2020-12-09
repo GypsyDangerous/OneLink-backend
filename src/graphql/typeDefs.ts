@@ -34,6 +34,28 @@ export const typeDefs = gql`
 		theme: String!
 		linkCount: Int!
 	}
+	type LinkAnalytic {
+		id: ID!
+		clicks: Int!
+	}
+	input LinkAnalyticModifier {
+		id: ID!
+		clicks: Int!
+	}
+	input AnalyticsModifier {
+		sessions: Int
+		uniqueVisitors: Int
+		clicks: Int
+		links: [LinkAnalyticModifier]
+	}
+	type Analytics {
+		owner: String
+		sessions: Int!
+		uniqueVisitors: Int!
+		clicks: Int!
+		clickThroughRate: Int!
+		links: [LinkAnalytic]
+	}
 	type AuthResult {
 		user: User
 		token: String!
@@ -45,6 +67,7 @@ export const typeDefs = gql`
 	}
 	type Query {
 		me: User
+		analytics: Analytics
 		page(name: String!): Page
 		user(name: String!): PublicUser
 	}
@@ -65,5 +88,6 @@ export const typeDefs = gql`
 		addLinks(links: [LinkBody]): Page
 		updateLink(link: LinkBody): Page
 		updatePage(theme: String, linkCount: Int): Page
+		updateAnalytics(newAnalytics: AnalyticsModifier): Analytics
 	}
 `;
