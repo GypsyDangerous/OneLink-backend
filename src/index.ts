@@ -9,16 +9,16 @@ if (!uri) {
 const mongoose = new Controller(uri);
 
 
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+	/* eslint-disable no-console */
+	console.log(`Listening on port:${port}`);
+	/* eslint-enable no-console */
+});
 mongoose.connect().then(() => {
-	const port = process.env.PORT || 3000;
 	mongoose.app?.connection.once("open", () => {
 		console.log("MongoDB database connection successful");
 	});
-	app.listen(port, () => {
-		/* eslint-disable no-console */
-		console.log(`Listening on port:${port}`);
-		/* eslint-enable no-console */
-	});
-});
+}).catch(err => console.log(err.message));
 
 

@@ -10,7 +10,10 @@ export const analytics = {
 		{ newAnalytics: { sessions, uniqueVisitors, clicks, links } }: { newAnalytics: Analytics },
 		context: Context
 	): DocumentQuery<Analytics | null, Analytics, unknown> => {
-		const { id } = context;
+        const { id, req } = context;
+        
+        console.log(req.get("origin"), req.get("host"))
+
 		if (!id) throw new Error("Unauthorized");
 		const analyticsToModify = await Analytics.findOne({ owner: id });
 
