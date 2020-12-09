@@ -4,6 +4,7 @@ import { DocumentQuery } from "mongoose";
 
 import { Page as PageType } from "../../../types/Page";
 import { Context } from "../../../types/Request";
+import Analytics from "../../../models/Analytics.model";
 
 interface PublicUser {
 	bio: string;
@@ -33,6 +34,15 @@ export const Query = {
 		} else {
 			throw new Error("Unauthorized");
 		}
+	},
+	analytics: async (
+		parent: unknown,
+		args: unknown,
+		context: Context
+	): DocumentQuery<Analytics | null, Analytics, unknown> => {
+		const { id } = context;
+		if (!id) throw new Error("Unauthorized");
+		return Analytics.findOne({ owner: id });
 	},
 	page: (
 		parent: unknown,
