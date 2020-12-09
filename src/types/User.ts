@@ -7,3 +7,9 @@ export interface UserModification {
 	phone?: string;
 	Authorization?: string;
 }
+
+export interface PublicUser {
+	bio: string;
+	photo: string;
+	username: string;
+}

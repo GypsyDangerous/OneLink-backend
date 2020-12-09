@@ -6,11 +6,7 @@ import { Page as PageType } from "../../../types/Page";
 import { Context } from "../../../types/Request";
 import Analytics from "../../../models/Analytics.model";
 
-interface PublicUser {
-	bio: string;
-	photo: string;
-	username: string;
-}
+import {PublicUser} from "../../../types/User"
 
 export const Query = {
 	user: async (parent: unknown, { name }: { name: string }): Promise<PublicUser> => {
