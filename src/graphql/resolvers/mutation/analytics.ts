@@ -2,7 +2,6 @@ import User from "../../../models/User.model";
 import { DocumentQuery } from "mongoose";
 import { hasUniqueEmail, login, register, setRefreshToken } from "../../../utils/functions";
 import { Context } from "../../../types/Request";
-import { Doc } from "prettier";
 import Analytics from "../../../models/Analytics.model";
 
 export const analytics = {
