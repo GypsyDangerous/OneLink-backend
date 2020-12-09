@@ -15,9 +15,7 @@ mongoose.connect().then(() => {
 		console.log("MongoDB database connection successful");
 	});
 	app.listen(port, () => {
-		/* eslint-disable no-console */
 		console.log(`Listening on port:${port}`);
-		/* eslint-enable no-console */
 	});
 });
 
