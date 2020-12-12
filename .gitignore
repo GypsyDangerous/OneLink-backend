@@ -116,3 +116,5 @@ dist
 .pnp.*
 
 public/images
+
+logging

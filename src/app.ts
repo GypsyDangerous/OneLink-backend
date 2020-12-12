@@ -12,6 +12,7 @@ import { notFound, errorHandler } from "./middleware";
 import { upload_path } from "./utils/constants";
 import { payload } from "./types/Auth";
 import { createAuthToken, getRefreshSecret } from "./utils/functions";
+import logger from "./middleware/logging";
 dotenv.config();
 
 const app = express();
@@ -29,6 +30,8 @@ app.use(
 );
 app.use(express.json());
 app.use(cookie_parser());
+
+app.use(logger)
 
 server.applyMiddleware({ app, cors: false });
 
