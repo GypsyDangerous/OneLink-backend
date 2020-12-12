@@ -4,11 +4,11 @@ import app from "../src/app";
 
 const uri = process.env.ATLAS_URI;
 
-if (!uri) {
-	throw new Error("Missing mongoose connection string");
-}
+// if (!uri) {
+// 	throw new Error("Missing mongoose connection string");
+// }
 
-const mongoose = new Controller(uri);
+const mongoose = new Controller(uri || "");
 
 beforeAll(async () => {
 	await mongoose.connect();

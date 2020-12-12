@@ -4,9 +4,9 @@ import Controller from "./mongoose";
 const uri = process.env.ATLAS_URI;
 
 if (!uri) {
-	// throw new Error("Missing mongoose connection string");
+	throw new Error("Missing mongoose connection string");
 }
-const mongoose = new Controller(uri || "");
+const mongoose = new Controller(uri);
 
 
 mongoose.connect().then(() => {
