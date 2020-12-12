@@ -5,7 +5,7 @@
   </a>
 
   <p align="center">
-    <img alt="License" src="https://img.shields.io/github/license/GypsyDangerous/onelink-server?style=for-the-badge" />
+    <img alt="License" src="https://img.shields.io/github/license/GypsyDangerous/OneLink-Backend?style=for-the-badge" />
     <img alt="Twitter Follow" src="https://img.shields.io/twitter/follow/snyderling_?style=for-the-badge" />
   </p>
 
