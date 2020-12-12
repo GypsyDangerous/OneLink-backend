@@ -11,11 +11,19 @@ const uri = process.env.ATLAS_URI;
 const mongoose = new Controller(uri || "");
 
 beforeAll(async () => {
-	await mongoose.connect();
+	try {
+		await mongoose.connect();
+	} catch (err) {
+		console.log("err");
+	}
 });
 
 afterAll(async () => {
-	await mongoose.disconnect();
+	try {
+		await mongoose.disconnect();
+	} catch (err) {
+		console.log("error");
+	}
 });
 
 test("responds with a not found message", async () => {
