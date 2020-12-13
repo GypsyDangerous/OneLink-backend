@@ -24,7 +24,7 @@ const logger = async (req: Request, res: Response, next: NextFunction): Promise<
 
 	res.end = (...restArgs: any) => {
 		const loggingString = `${new Date().toLocaleString("en-US", { timeZone: "America/new_york" })}: method=${req.method} path="${
-			req.path
+			req.originalUrl
 		}" ${Object.keys(query).length ? logParams : ""}host=${req.get("host")} origin="${req.get("origin")}" url="${
 			req.url
 		}" originalUrl="${req.originalUrl}" status=${res.statusCode} duration="${Math.abs(
