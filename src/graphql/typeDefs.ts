@@ -8,6 +8,7 @@ export const typeDefs = gql`
 		email: String!
 		photo: String
 		id: ID!
+		Page: Page
 	}
 	type Link {
 		path: String!

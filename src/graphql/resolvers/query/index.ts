@@ -6,7 +6,8 @@ import { Page as PageType } from "../../../types/Page";
 import { Context } from "../../../types/Request";
 import Analytics from "../../../models/Analytics.model";
 
-import {PublicUser} from "../../../types/User"
+import { PublicUser } from "../../../types/User";
+import { getPage } from "../../../utils/functions";
 
 export const Query = {
 	user: async (parent: unknown, { name }: { name: string }): Promise<PublicUser> => {
@@ -20,13 +21,13 @@ export const Query = {
 			username: name,
 		};
 	},
-	me: (
-		parent: unknown,
-		args: unknown,
-		context: Context
-	): DocumentQuery<User | null, User, unknown> => {
+	me: async (parent: unknown, args: unknown, context: Context): Promise<any> => {
 		if (context.id) {
-			return User.findById(context.id);
+			const user: any = await User.findById(context.id);
+			const page = await getPage(context.id);
+			user.Page = page;
+
+			return user;
 		} else {
 			throw new Error("Unauthorized");
 		}
