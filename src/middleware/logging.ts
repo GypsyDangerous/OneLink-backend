@@ -23,13 +23,13 @@ const logger = async (req: Request, res: Response, next: NextFunction): Promise<
 	res.startTime = new Date().getTime();
 
 	res.end = (...restArgs: any) => {
-		const loggingString = `${new Date().toLocaleString()}: method=${req.method} path="${
+		const loggingString = `${new Date().toLocaleString("en-US", { timeZone: "America/new_york" })}: method=${req.method} path="${
 			req.path
-		}" ${Object.keys(query).length ? logParams : ""}host=${req.get("host")} url=${
+		}" ${Object.keys(query).length ? logParams : ""}host=${req.get("host")} origin="${req.get("origin")}" url="${
 			req.url
-		} originalUrl=${req.originalUrl} status=${res.statusCode} duration=${Math.abs(
+		}" originalUrl="${req.originalUrl}" status=${res.statusCode} duration="${Math.abs(
 			res.startTime - new Date().getTime()
-		)}ms protocol=${req.protocol}`;
+		)}ms" protocol=${req.protocol}`;
 
 		promises.appendFile(loggingFilePath, `\n${loggingString}`)
 
