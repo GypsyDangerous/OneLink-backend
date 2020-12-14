@@ -18,6 +18,7 @@ export const typeDefs = gql`
 		order: Int!
 		color: String!
 		active: Boolean!
+		id: ID!
 	}
 	input LinkBody {
 		path: String!
