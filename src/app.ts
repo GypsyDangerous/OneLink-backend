@@ -5,7 +5,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookie_parser from "cookie-parser";
 import jwt from "jsonwebtoken";
-import server from "./graphql/server"
+import server from "./graphql/server";
 import User from "./models/User.model";
 import api from "./api";
 import { notFound, errorHandler } from "./middleware";
@@ -24,14 +24,14 @@ if (process.env.DEBUG_MODE === "true") {
 app.use(helmet());
 app.use(
 	cors({
-		origin: "http://localhost:3000",
+		origin: ["http://localhost:3000", "https://onelinkapp.xyz", "https://www.onelinkapp.xyz"],
 		credentials: true,
 	})
 );
 app.use(express.json());
 app.use(cookie_parser());
 
-app.use(logger)
+app.use(logger);
 
 server.applyMiddleware({ app, cors: false });
 
