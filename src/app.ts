@@ -13,6 +13,7 @@ import { upload_path } from "./utils/constants";
 import { payload } from "./types/Auth";
 import { createAuthToken, getRefreshSecret } from "./utils/functions";
 import logger from "./middleware/logging";
+
 dotenv.config();
 
 const app = express();
