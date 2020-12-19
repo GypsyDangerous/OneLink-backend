@@ -13,6 +13,7 @@ import { upload_path } from "./utils/constants";
 import { payload } from "./types/Auth";
 import { createAuthToken, getRefreshSecret } from "./utils/functions";
 import logger from "./middleware/logging";
+import imageResize from "./middleware/imageResize";
 
 dotenv.config();
 
@@ -34,7 +35,8 @@ app.use(cookie_parser());
 
 app.use(logger);
 
-app.use(upload_path.substr(1), express.static(upload_path.substr(2)));
+app.use(upload_path.substr(1), imageResize);
+// app.use(upload_path.substr(1), imageResize, express.static(upload_path.substr(2)));
 
 app.use((req, res, next) => {
 	if(!req.get("origin")) return res.status(401).json({message: "servers aren't allowed"})
