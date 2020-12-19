@@ -21,6 +21,8 @@
   "license": "MIT",
   "devDependencies": {
     "@types/cookie-parser": "^1.4.2",
+    "@types/mime-types": "^2.1.0",
+    "@types/sharp": "^0.26.1",
     "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.2.0",
     "@typescript-eslint/parser": "^4.2.0",
@@ -67,6 +69,7 @@
     "helmet": "^4.1.0",
     "joi": "^17.3.0",
     "jsonwebtoken": "^8.5.1",
+    "mime-types": "^2.1.27",
     "mongodb": "^3.5.2",
     "mongoose": "^5.8.11",
     "morgan": "^1.10.0",
