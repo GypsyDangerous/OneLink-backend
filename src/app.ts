@@ -38,10 +38,10 @@ app.use(logger);
 app.use(upload_path.substr(1), imageResize);
 // app.use(upload_path.substr(1), imageResize, express.static(upload_path.substr(2)));
 
-app.use((req, res, next) => {
-	if(!req.get("origin")) return res.status(401).json({message: "servers aren't allowed"})
-	next()
-})
+// app.use((req, res, next) => {
+// 	if(!req.get("origin")) return res.status(401).json({message: "servers aren't allowed"})
+// 	next()
+// })
 
 server.applyMiddleware({ app, cors: false });
 
