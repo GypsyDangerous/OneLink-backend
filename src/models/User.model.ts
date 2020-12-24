@@ -90,12 +90,12 @@ const UserSchema = new Schema(
 	}
 );
 
-UserSchema.methods.generateHash = function (password: string) {
-	return bcrypt.hashSync(password, bcrypt.genSaltSync(saltRounds));
+UserSchema.methods.generateHash = async function (password: string) {
+	return bcrypt.hash(password, bcrypt.genSaltSync(saltRounds));
 };
 
-UserSchema.methods.validPassword = function (password: string) {
-	return bcrypt.compareSync(password, this.password);
+UserSchema.methods.validPassword = async function (password: string) {
+	return bcrypt.compare(password, this.password);
 };
 
 const User = mongoose.model<User>("user", UserSchema);

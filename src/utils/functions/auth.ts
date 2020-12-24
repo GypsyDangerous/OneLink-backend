@@ -46,7 +46,7 @@ export const login = async (email: string, password: string): Promise<AuthResult
 	}
 
 	// check if the password hash in the database matches the password that was sent in, if not return an error
-	if (user.validPassword(password)) {
+	if (await user.validPassword(password)) {
 		const token = createAuthToken({ userId: user._id, email });
 		const refresh_token = createRefreshToken({
 			userId: user._id,
@@ -92,7 +92,7 @@ export const register = async (
 
 	email = email.toLowerCase();
 	const newUser = new User({ username, email });
-	newUser.password = newUser.generateHash(password);
+	newUser.password = await newUser.generateHash(password);
 	await newUser.save();
 
 	const token = createAuthToken({ userId: newUser._id, email });
