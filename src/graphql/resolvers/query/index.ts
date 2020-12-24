@@ -19,6 +19,7 @@ export const Query = {
 			bio: privateUser.bio,
 			photo: privateUser.photo,
 			username: name,
+			id: privateUser._id
 		};
 	},
 	me: async (parent: unknown, args: unknown, context: Context): Promise<any> => {

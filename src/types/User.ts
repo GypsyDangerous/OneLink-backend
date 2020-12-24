@@ -12,4 +12,5 @@ export interface PublicUser {
 	bio: string;
 	photo: string;
 	username: string;
+	id: string
 }

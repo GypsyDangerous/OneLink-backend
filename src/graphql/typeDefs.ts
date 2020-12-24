@@ -66,6 +66,7 @@ export const typeDefs = gql`
 		bio: String
 		username: String!
 		photo: String!
+		id: ID!
 	}
 	type Query {
 		me: User
