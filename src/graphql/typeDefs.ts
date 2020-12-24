@@ -90,6 +90,7 @@ export const typeDefs = gql`
 		addLinks(links: [LinkBody]): Page
 		updateLink(link: LinkBody): Page
 		updatePage(theme: String, linkCount: Int): Page
-		updateAnalytics(newAnalytics: AnalyticsModifier): Analytics
+		updateAnalytics(id: ID!, newAnalytics: AnalyticsModifier): Analytics
+		incrementCount(linkId: ID!, userId: ID!): Analytics
 	}
 `;
