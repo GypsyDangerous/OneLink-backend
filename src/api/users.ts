@@ -6,7 +6,12 @@ import { updateUser } from "../utils/functions";
 const router = Router();
 import QRCode from "qrcode";
 
-router.get("/qr/:username", (req, res) => {
+router.get("/qr/:username", async (req, res) => {
+	const {username} = req.params
+	const user = await User.findOne({username})
+	if(!user){
+		return res.status(404).json({message: "User not found", code: 404})
+	}
 	QRCode.toBuffer(`https://www.onelinkapp.xyz/${req.params.username}`, (err, buffer) => {
 		res.setHeader("content-type", "image/png");
 		res.write(buffer, "binary");
