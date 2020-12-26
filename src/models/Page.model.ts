@@ -7,7 +7,7 @@ const PageSchema = new Schema(
 		owner: { type: String, required: true },
 		links: { type: Array, required: true, default: [] },
 		theme: {
-			type: String,
+			type: Object,
 			required: false,
 			default: "normal",
 		},

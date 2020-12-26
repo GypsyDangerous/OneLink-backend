@@ -30,10 +30,22 @@ export const typeDefs = gql`
 		active: Boolean!
 		id: String
 	}
+	type Theme {
+		linkStyle: String
+		animationType: String
+		backgroundColor: String
+		linkColor: String
+	}
+	input NewTheme{
+		linkStyle: String
+		animationType: String
+		backgroundColor: String
+		linkColor: String
+	}
 	type Page {
 		owner: String!
 		links: [Link]!
-		theme: String!
+		theme: Theme!
 		linkCount: Int!
 	}
 	type LinkAnalytic {
@@ -90,7 +102,7 @@ export const typeDefs = gql`
 		addLink(link: LinkBody): Page
 		addLinks(links: [LinkBody]): Page
 		updateLink(link: LinkBody): Page
-		updatePage(theme: String, linkCount: Int): Page
+		updatePage(theme: NewTheme, linkCount: Int): Page
 		updateAnalytics(id: ID!, newAnalytics: AnalyticsModifier): Analytics
 		incrementCount(linkId: ID!, userId: ID!): Analytics
 	}

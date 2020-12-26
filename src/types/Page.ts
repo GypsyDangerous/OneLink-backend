@@ -11,9 +11,16 @@ export interface Link {
 	id: string
 }
 
+export interface Theme {
+	linkStyle: string,
+	animationType: string,
+	backgroundColor: string,
+	linkColor: string,
+}
+
 export interface Page extends mongoose.Document {
 	owner: string;
 	links: Link[];
-	theme: string;
+	theme: Theme;
 	linkCount: number;
 }
