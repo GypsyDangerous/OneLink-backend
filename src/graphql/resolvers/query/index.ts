@@ -11,9 +11,10 @@ import { getPage } from "../../../utils/functions";
 
 export const Query = {
 	user: async (parent: unknown, { name }: { name: string }): Promise<PublicUser> => {
+		console.log(name)
 		const privateUser = await User.findOne({ username: name });
 
-		if (!privateUser) throw new Error("unknown user");
+		if (!privateUser) throw new Error(`unknown user: ${name}`);
 
 		return {
 			bio: privateUser.bio,

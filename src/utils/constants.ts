@@ -9,3 +9,11 @@ export const passwordMin = 8,
 	emailMin = 7;
 
 export const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+export const MimeTypeMap: any = {
+	"image/png": "png",
+	"image/jpeg": "jpeg",
+	"image/jpg": "jpg",
+	"image/svg+xml": "svg",
+	"image/gif": "gif",
+};

@@ -5,7 +5,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import cookie_parser from "cookie-parser";
 import jwt from "jsonwebtoken";
-import server from "./graphql/server"
+import server from "./graphql/server";
 import User from "./models/User.model";
 import api from "./api";
 import { notFound, errorHandler } from "./middleware";
@@ -13,6 +13,8 @@ import { upload_path } from "./utils/constants";
 import { payload } from "./types/Auth";
 import { createAuthToken, getRefreshSecret } from "./utils/functions";
 import logger from "./middleware/logging";
+import imageResize from "./middleware/imageResize";
+
 dotenv.config();
 
 const app = express();
@@ -24,18 +26,25 @@ if (process.env.DEBUG_MODE === "true") {
 app.use(helmet());
 app.use(
 	cors({
-		origin: "http://localhost:3000",
+		origin: ["http://localhost:3000", "https://onelinkapp.xyz", "https://www.onelinkapp.xyz"],
 		credentials: true,
 	})
 );
 app.use(express.json());
 app.use(cookie_parser());
 
-app.use(logger)
+app.use(logger);
+
+app.use(upload_path.substr(1), imageResize);
+// app.use(upload_path.substr(1), imageResize, express.static(upload_path.substr(2)));
+
+// app.use((req, res, next) => {
+// 	if(!req.get("origin")) return res.status(401).json({message: "servers aren't allowed"})
+// 	next()
+// })
 
 server.applyMiddleware({ app, cors: false });
 
-app.use(upload_path.substr(1), express.static(upload_path.substr(2)));
 
 app.get("/", (req, res) => {
 	res.json({

@@ -2,14 +2,8 @@ import multer from "multer";
 import {get_image_filename} from "../utils/functions"
 import fs from "fs"
 import { upload_path } from "../utils/constants";
+import {MimeTypeMap} from "../utils/constants"
 
-const MimeTypeMap: any = {
-	"image/png": "png",
-	"image/jpeg": "jpeg",
-	"image/jpg": "jpg",
-	"image/svg+xml": "svg",
-	"image/gif": "gif",
-};
 
 const fileUpload = multer({
 	limits:{
