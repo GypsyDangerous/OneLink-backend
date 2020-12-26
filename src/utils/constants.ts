@@ -15,5 +15,6 @@ export const MimeTypeMap: any = {
 	"image/jpeg": "jpeg",
 	"image/jpg": "jpg",
 	"image/svg+xml": "svg",
+	"image/svg": "svg",
 	"image/gif": "gif",
 };
