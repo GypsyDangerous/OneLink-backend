@@ -2,7 +2,7 @@ import { saltRounds } from "../constants";
 import { UserModification } from "../../types/User";
 import bcrypt from "bcrypt";
 import { getPage } from "./getters";
-import { Page as Page, Link } from "../../types/Page";
+import { Page as Page, Link, Theme } from "../../types/Page";
 import User from "../../models/User.model";
 import uid from "uid";
 
@@ -63,7 +63,7 @@ export const updateLink = async (owner: string, link: Link): Promise<Page> => {
 
 export const updatePage = async (
 	owner: string,
-	theme?: string,
+	theme?: Theme,
 	linkCount?: number
 ): Promise<Page> => {
 	const Page = await getPage(owner);

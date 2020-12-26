@@ -1,6 +1,6 @@
 import Page from "../../../models/Page.model";
 import { addLink, updatePage, updateLink } from "../../../utils/functions";
-import { Page as PageType, Link } from "../../../types/Page";
+import { Page as PageType, Link, Theme } from "../../../types/Page";
 import User from "../../../models/User.model";
 import { Context } from "../../../types/Request";
 
@@ -36,7 +36,7 @@ export const page = {
 	},
 	updatePage: async (
 		parent: unknown,
-		{ theme, linkCount }: { theme?: string; linkCount?: number },
+		{ theme, linkCount }: { theme?: Theme; linkCount?: number },
 		context: Context
 	): Promise<PageType> => {
 		const { id } = context;
