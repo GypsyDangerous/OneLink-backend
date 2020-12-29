@@ -30,3 +30,7 @@ export const getAuthSecret = (): string => {
 export const getRefreshSecret = (): string => {
 	return getSecret("REFRESH_SECRET");
 };
+
+export const getResetSecret = (): string => {
+	return getSecret("RESET_SECRET")
+}

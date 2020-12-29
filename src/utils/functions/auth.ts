@@ -1,7 +1,7 @@
 import { AuthResult, payload } from "../../types/Auth";
 import jwt from "jsonwebtoken";
 import User from "../../models/User.model";
-import { getAuthSecret, getRefreshSecret } from "./getters";
+import { getAuthSecret, getRefreshSecret, getResetSecret } from "./getters";
 import { validateCredentials } from "./validation";
 import { Context } from "../../types/Request";
 
@@ -15,6 +15,25 @@ export const createRefreshToken = (payload: payload): string => {
 	return jwt.sign(payload, getRefreshSecret(), {
 		expiresIn: "7d",
 	});
+};
+
+export const createResetToken = (payload: payload): string => {
+	return jwt.sign(payload, getResetSecret(), {
+		expiresIn: "1d",
+	});
+};
+
+export const GetPasswordResetToken = async (email: string) => {
+	const user = await User.findOne({ email });
+	if (!user) {
+		return { code: 400, message: "user not found" };
+	}
+	const payload: payload = {
+		userId: user.id,
+		email: email,
+	};
+	const token = createResetToken(payload);
+	return { code: 200, message: "success", data: { token } };
 };
 
 export const checkAuth = async (token?: string): Promise<payload | null> => {
