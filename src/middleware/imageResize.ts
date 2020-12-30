@@ -33,6 +33,7 @@ const imageResize: MiddlewareFunction = async (req, res, next) => {
 
 		if (fs.existsSync(sizedPath)) {
 			const file = await promises.readFile(sizedPath);
+			res.status(304)
 			res.write(file, "binary");
 			res.end(null, "binary");
 			return
