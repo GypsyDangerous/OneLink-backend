@@ -23,4 +23,8 @@ router.post("/login", async (req, res) => {
 	}
 });
 
+router.post("/check_email", (res, req, next) => {
+	
+})
+
 export = router;
