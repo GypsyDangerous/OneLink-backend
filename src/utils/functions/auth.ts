@@ -1,10 +1,17 @@
 import { AuthResult, payload } from "../../types/Auth";
 import jwt from "jsonwebtoken";
 import User from "../../models/User.model";
-import { getAuthSecret, getRefreshSecret, getResetSecret } from "./getters";
+import {
+	getAuthSecret,
+	getRefreshSecret,
+	getResetSecret,
+	get_image_filename,
+	get_url_extension,
+} from "./getters";
 import { validateCredentials } from "./validation";
 import { Context } from "../../types/Request";
 import { OAuth2Client } from "google-auth-library";
+import { downloadFile } from ".";
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -148,10 +155,14 @@ export const googleAuth = async (token: string) => {
 
 	const { sub: userId, email, name, picture } = payload;
 
+	const filename = get_image_filename("png");
+
+	await downloadFile(picture!, filename);
+
 	return {
 		userId,
 		email,
-		username: name, 
-		photo: picture
+		username: name,
+		photo: filename,
 	};
 };
