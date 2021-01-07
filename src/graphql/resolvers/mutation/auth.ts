@@ -1,9 +1,42 @@
 import User from "../../../models/User.model";
 import { DocumentQuery } from "mongoose";
-import { hasUniqueEmail, login, register, setRefreshToken } from "../../../utils/functions";
+import {
+	googleAuth,
+	hasUniqueEmail,
+	login,
+	register,
+	setRefreshToken,
+} from "../../../utils/functions";
 import { Context } from "../../../types/Request";
 
 export const auth = {
+	googleRegister: async (
+		parent: unknown,
+		{ token }: { token: string },
+		context: Context
+	): Promise<{ token?: string; user: DocumentQuery<User | null, User, unknown> }> => {
+		const { username, email, photo, userId } = await googleAuth(token);
+		const AuthResult = await register(username!, email!, userId, photo);
+
+		setRefreshToken(context, AuthResult);
+
+		const user = User.findById(AuthResult.userId);
+		return { user, token: AuthResult.token };
+	},
+	googleLogin: async (
+		parent: unknown,
+		{ token }: { token: string },
+		context: Context
+	): Promise<{ token?: string; user: DocumentQuery<User | null, User, unknown> }> => {
+		const { username, email, photo, userId } = await googleAuth(token);
+		const AuthResult = await login(email!, userId);
+
+		setRefreshToken(context, AuthResult);
+
+		const user = User.findById(AuthResult.userId);
+		return { user, token: AuthResult.token };
+	},
+
 	login: async (
 		parent: unknown,
 		{ email, password }: { email: string; password: string },

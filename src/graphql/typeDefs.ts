@@ -36,7 +36,7 @@ export const typeDefs = gql`
 		backgroundColor: String
 		linkColor: String
 	}
-	input NewTheme{
+	input NewTheme {
 		linkStyle: String
 		animationType: String
 		backgroundColor: String
@@ -87,6 +87,8 @@ export const typeDefs = gql`
 		user(name: String!): PublicUser
 	}
 	type Mutation {
+		googleLogin(token: String!): AuthResult
+		googleRegister(token: String!): AuthResult
 		login(email: String!, password: String!): AuthResult
 		logout: Boolean
 		register(username: String!, email: String!, password: String!): AuthResult

@@ -4,6 +4,9 @@ import User from "../../models/User.model";
 import { getAuthSecret, getRefreshSecret, getResetSecret } from "./getters";
 import { validateCredentials } from "./validation";
 import { Context } from "../../types/Request";
+import { OAuth2Client } from "google-auth-library";
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export const createAuthToken = (payload: payload): string => {
 	return jwt.sign(payload, getAuthSecret(), {
@@ -104,13 +107,14 @@ export const setRefreshToken = (context: Context, authResult: AuthResult): void 
 export const register = async (
 	username: string,
 	email: string,
-	password: string
+	password: string,
+	photo?: string
 ): Promise<AuthResult> => {
 	const result = validateCredentials({ email, password, username }, true);
 	if (!result.success) return result;
 
 	email = email.toLowerCase();
-	const newUser = new User({ username, email });
+	const newUser = new User({ username, email, photo: photo || "/avatar.png" });
 	newUser.password = await newUser.generateHash(password);
 	await newUser.save();
 
@@ -128,5 +132,26 @@ export const register = async (
 		token: token,
 		refresh_token,
 		userId: newUser.id,
+	};
+};
+
+export const googleAuth = async (token: string) => {
+	const ticket = await googleClient.verifyIdToken({
+		idToken: token,
+		audience: process.env.GOOGLE_CLIENT_ID,
+	});
+	const payload = ticket.getPayload();
+
+	if (!payload) throw new Error("Missing user");
+
+	console.log(`User: ${payload.name} verified`);
+
+	const { sub: userId, email, name, picture } = payload;
+
+	return {
+		userId,
+		email,
+		username: name, 
+		photo: picture
 	};
 };
