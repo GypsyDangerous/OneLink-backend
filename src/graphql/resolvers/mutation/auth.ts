@@ -16,8 +16,15 @@ export const auth = {
 		context: Context
 	): Promise<{ token?: string; user: DocumentQuery<User | null, User, unknown> }> => {
 		const { username, email, photo, userId } = await googleAuth(token);
+		let AuthResult;
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const AuthResult = await register(username!, email!, userId, photo);
+		if (!(await hasUniqueEmail(email!))) {
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			AuthResult = await login(email!, userId!);
+		} else {
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			AuthResult = await register(username!, email!, userId, photo);
+		}
 
 		setRefreshToken(context, AuthResult);
 
@@ -29,9 +36,17 @@ export const auth = {
 		{ token }: { token: string },
 		context: Context
 	): Promise<{ token?: string; user: DocumentQuery<User | null, User, unknown> }> => {
-		const { email, userId } = await googleAuth(token);
+		const { email, userId, username, photo } = await googleAuth(token);
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const AuthResult = await login(email!, userId);
+		let AuthResult;
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		if (await hasUniqueEmail(email!)) {
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			AuthResult = await login(email!, userId!);
+		} else {
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			AuthResult = await register(username!, email!, userId, photo);
+		}
 
 		setRefreshToken(context, AuthResult);
 
