@@ -40,7 +40,7 @@ export const auth = {
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		let AuthResult;
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		if (await hasUniqueEmail(email!)) {
+		if (!(await hasUniqueEmail(email!))) {
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			AuthResult = await login(email!, userId!);
 		} else {
