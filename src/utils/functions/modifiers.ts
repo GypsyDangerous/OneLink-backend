@@ -64,13 +64,18 @@ export const updateLink = async (owner: string, link: Link): Promise<Page> => {
 export const updatePage = async (
 	owner: string,
 	theme?: Theme,
-	linkCount?: number
+	linkCount?: number,
+	links?: Link[]
 ): Promise<Page> => {
 	const Page = await getPage(owner);
 	if (!Page) throw new Error("invalid page");
 
 	if (theme) Page.theme = theme;
 	if (linkCount) Page.linkCount = linkCount;
+	if (links) {
+		Page.links = links;
+		Page.markModified("links");
+	}
 	Page.save();
 	return Page;
 };

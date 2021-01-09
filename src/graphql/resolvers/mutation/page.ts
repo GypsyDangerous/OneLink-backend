@@ -33,11 +33,11 @@ export const page = {
 	},
 	updatePage: async (
 		parent: unknown,
-		{ theme, linkCount }: { theme?: Theme; linkCount?: number },
+		{ theme, linkCount, links }: { theme?: Theme; linkCount?: number, links: Link[] },
 		context: Context
 	): Promise<PageType> => {
 		const { id } = context;
 		if (!id) throw new Error("Unauthorized");
-		return updatePage(id, theme, linkCount);
+		return updatePage(id, theme, linkCount, links);
 	},
 };
