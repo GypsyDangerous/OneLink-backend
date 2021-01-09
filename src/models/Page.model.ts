@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import {Page} from "../types/Page"
-
+import { Page } from "../types/Page";
 
 const PageSchema = new Schema(
 	{
@@ -9,7 +8,12 @@ const PageSchema = new Schema(
 		theme: {
 			type: Object,
 			required: false,
-			default: "normal",
+			default: {
+				linkStyle: "",
+				animationType: "",
+				backgroundColor: "#282828",
+				linkColor: "#2c4d5a",
+			},
 		},
 		linkCount: {
 			type: Number,
@@ -24,4 +28,4 @@ const PageSchema = new Schema(
 
 const Page = mongoose.model<Page>("Page", PageSchema);
 
-export = Page 
+export = Page;
