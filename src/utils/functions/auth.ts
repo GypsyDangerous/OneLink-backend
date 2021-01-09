@@ -12,6 +12,7 @@ import { validateCredentials } from "./validation";
 import { Context } from "../../types/Request";
 import { OAuth2Client } from "google-auth-library";
 import { downloadFile } from ".";
+import { createPage } from "./page";
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -131,6 +132,8 @@ export const register = async (
 		email,
 		tokenVersion: newUser.tokenVersion,
 	});
+
+	createPage(newUser.id)
 
 	return {
 		code: 200,
