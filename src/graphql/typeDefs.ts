@@ -104,7 +104,7 @@ export const typeDefs = gql`
 		addLink(link: LinkBody): Page
 		addLinks(links: [LinkBody]): Page
 		updateLink(link: LinkBody): Page
-		updatePage(theme: NewTheme, linkCount: Int): Page
+		updatePage(theme: NewTheme, linkCount: Int, links: [LinkBody]): Page
 		updateAnalytics(id: ID!, newAnalytics: AnalyticsModifier): Analytics
 		incrementCount(linkId: ID!, userId: ID!): Analytics
 	}
