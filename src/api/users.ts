@@ -15,7 +15,7 @@ router.get("/qr/:username", async (req, res, next) => {
 	try{
 
 		QRCode.toBuffer(
-			`https://www.onelinkapp.xyz/${req.params.username}`,
+			`https://www.onelinkapp.xyz/${encodeURIComponent(req.params.username)}`,
 			{
 				width: Number(req.query.width || 144),
 				color: {
