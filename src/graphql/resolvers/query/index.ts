@@ -9,9 +9,11 @@ import Analytics from "../../../models/Analytics.model";
 import { PublicUser } from "../../../types/User";
 import { getPage } from "../../../utils/functions";
 
+// interface uniqueDetails
+
 export const Query = {
 	user: async (parent: unknown, { name }: { name: string }): Promise<PublicUser> => {
-		console.log(name)
+		console.log(name);
 		const privateUser = await User.findOne({ username: name });
 
 		if (!privateUser) throw new Error(`unknown user: ${name}`);
@@ -20,7 +22,7 @@ export const Query = {
 			bio: privateUser.bio,
 			photo: privateUser.photo,
 			username: name,
-			id: privateUser._id
+			id: privateUser._id,
 		};
 	},
 	me: async (parent: unknown, args: unknown, context: Context): Promise<any> => {
@@ -48,5 +50,20 @@ export const Query = {
 		{ name }: { name: string }
 	): DocumentQuery<PageType | null, PageType, unknown> => {
 		return Page.findOne({ owner: name });
+	},
+
+	checkUniqueDetails: async (
+		parent: unknown,
+		{ email, username }: { email?: string; username?: string }
+	): Promise<{
+		uniqueEmail: boolean | null;
+		uniqueUsername: boolean | null;
+	}> => {
+		const emailUser = email ? !(await User.findOne({ email })) : null;
+		const usernameUser = username ? !(await User.findOne({ username })) : null;
+		return {
+			uniqueEmail: emailUser,
+			uniqueUsername: usernameUser,
+		};
 	},
 };

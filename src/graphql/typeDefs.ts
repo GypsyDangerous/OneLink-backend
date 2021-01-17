@@ -80,11 +80,16 @@ export const typeDefs = gql`
 		photo: String!
 		id: ID!
 	}
+	type UniqueDetails{
+		uniqueEmail: Boolean
+		uniqueUsername: Boolean
+	}
 	type Query {
 		me: User
 		analytics: Analytics
 		page(name: String!): Page
 		user(name: String!): PublicUser
+		checkUniqueDetails(email: String, username: String): UniqueDetails
 	}
 	type Mutation {
 		googleLogin(token: String!): AuthResult
