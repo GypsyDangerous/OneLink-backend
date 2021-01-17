@@ -45,10 +45,18 @@ export const Query = {
 		if (!id) throw new Error("Unauthorized");
 		return Analytics.findOne({ owner: id });
 	},
-	page: (
+	page: async (
 		parent: unknown,
-		{ name }: { name: string }
+		{ name }: { name: string },
+		context: Context
 	): DocumentQuery<PageType | null, PageType, unknown> => {
+		const { id } = context;
+		console.log(id);
+		if (id) {
+			let page = await Page.findOne({ ownerId: id });
+			if (!page) page = await Page.findOne({ owner: name });
+			return page
+		}
 		return Page.findOne({ owner: name });
 	},
 

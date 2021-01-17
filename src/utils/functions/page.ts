@@ -8,7 +8,7 @@ export const createPage = async (id: string) : Promise<PageType> => {
 
 		const owner = await User.findById(id);
 		if (!owner) throw new Error("Unauthorized");
-		const newPage = new Page({ owner: owner.username });
+		const newPage = new Page({ owner: owner.username, ownerId: id });
 		await newPage.save();
 		return newPage;
 }

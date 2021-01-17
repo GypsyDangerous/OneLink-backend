@@ -2,7 +2,8 @@ import { saltRounds } from "../constants";
 import { UserModification } from "../../types/User";
 import bcrypt from "bcrypt";
 import { getPage } from "./getters";
-import { Page as Page, Link, Theme } from "../../types/Page";
+import { Page, Link, Theme } from "../../types/Page";
+import PageModel from "../../models/Page.model";
 import User from "../../models/User.model";
 import uid from "uid";
 
@@ -11,11 +12,15 @@ export const updateUser = async (
 	{ username, email, password, photo, bio, phone }: UserModification = {}
 ): Promise<{ message: string; code: number }> => {
 	const user = await User.findById(id);
+	const userPage = await PageModel.findOne({ ownerId: id });
 	if (!user) {
 		return { code: 400, message: "Invalid user id" };
 	}
 	if (username) {
 		user.username = username;
+		if (userPage) {
+			userPage.owner = username;
+		}
 	}
 	if (email) {
 		user.email = email;
@@ -36,6 +41,9 @@ export const updateUser = async (
 		}
 	}
 	await user.save();
+	if (userPage) {
+		await userPage.save();
+	}
 	return { code: 200, message: "User update successfully" };
 };
 

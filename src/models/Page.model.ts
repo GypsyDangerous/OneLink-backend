@@ -4,6 +4,7 @@ import { Page } from "../types/Page";
 const PageSchema = new Schema(
 	{
 		owner: { type: String, required: true },
+		ownerId: { type: String, required: true },
 		links: { type: Array, required: true, default: [] },
 		theme: {
 			type: Object,
